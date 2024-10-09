@@ -1,5 +1,5 @@
 import os
-import boto3
+import swiftclient
 import datetime
 import subprocess
 from PIL import Image
@@ -78,20 +78,31 @@ def video_to_gif_ffmpeg(input_video_path):
     return output_gif_path
         
 
-    
 def handler(args):
 
-     # Connexion to Remote Storage
-    bucket_name = 'donaldbucket'
-    aws_access_key_id = args["key"]
-    aws_secret_access_key = args["access"]
-    s3 = boto3.client('s3', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
-    
-    # Video Downloading
+    # Swift identifiant
+    auth_url = f'http://{args["ipv4"]}:8080/auth/v1.0'
+    username = 'test:tester'
+    password = 'testing'
+
+    # Connect to Swift
+    conn = swiftclient.Connection(
+    	authurl=auth_url,
+    	user=username,
+    	key=password,
+    	auth_version='1'
+	)
+
+    container = 'whiskcontainer'
+     
+    # Image Downloading
     download_begin = datetime.datetime.now()
-    s3.download_file(bucket_name, args["file"], args["file"])
-    download_size = os.path.getsize(args["file"])
+    obj = conn.get_object(container, args["file"])
+    with open(args["file"], 'wb') as f:
+        f.write(obj[1])
     download_end = datetime.datetime.now()
+    
+    download_size = os.path.getsize(args["file"])
     
     # Video to Gif Transformation
     process_begin = datetime.datetime.now()
@@ -99,9 +110,10 @@ def handler(args):
     process_end = datetime.datetime.now()
     out_size = os.path.getsize(out)
     
-    # Gif Uploading
+    # Result Uploading
     upload_begin = datetime.datetime.now()
-    s3.upload_file(out, bucket_name, out)
+    with open(out, 'rb') as f:
+        conn.put_object(container, out, contents=f.read())
     upload_end = datetime.datetime.now()
     
     download_time = (download_end - download_begin) / datetime.timedelta(seconds=1)
@@ -128,9 +140,8 @@ def main(args):
 
         "file"  : args.get("file", '1Mb.avi'),
         "bib"   : args.get("bib", "ffmpeg"),
-        "key"   : args.get("key"),
-        "access": args.get("access")
+        "ipv4": args.get("ipv4", "192.168.1.120")
 
     })
 
-    return {"body": result}
+    return result

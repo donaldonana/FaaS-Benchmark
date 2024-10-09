@@ -6,7 +6,7 @@ RUN pip install --upgrade pip
 
 RUN pip install numpy
 
-RUN pip install boto3
+RUN pip install python-swiftclient
 
 RUN pip install Pillow==9.0.0
 
