@@ -1,0 +1,10 @@
+result/
+resnet*.pth
+save.json
+*.csv
+*.pth
+*.json
+*.png
+*.PNG
+*.MP4
+*.avi
