@@ -106,4 +106,4 @@ def main(args):
             "push" : (push_end - push_begin) / datetime.timedelta(seconds=1)
         }
 
-    return  args
+    return  {"body" : args}

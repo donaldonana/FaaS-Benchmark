@@ -110,5 +110,5 @@ def main(args):
          }
         }
 
-    return {"statusCode": 200, "headers": { 'Content-Type': 'application/json' }, "body":response}
+    return {"body":response}
 
