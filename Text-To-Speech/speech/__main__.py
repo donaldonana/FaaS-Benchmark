@@ -93,6 +93,6 @@ def main(args):
         "ipv4" : ipv4
         }
     
-    return  response
+    return  {"statusCode": 200, "headers": { 'Content-Type': 'application/json' }, "body":response}
     
 

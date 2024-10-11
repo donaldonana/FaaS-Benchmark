@@ -28,6 +28,7 @@ else
 
 fi
 
-wsk action update text2speech --memory 250 --docker onanad/action-python-v3.9:text2speech speech/__main__.py 
-wsk action update conversion  --memory 200 --docker onanad/action-python-v3.9:conversion  conversion/__main__.py  
-wsk action update censor      --memory 200 --docker onanad/action-python-v3.9:censor      censor/__main__.py  
+wsk package update demo
+wsk action update guest/demo/text2speech --memory 250 --docker onanad/action-python-v3.9:text2speech speech/__main__.py --web true
+wsk action update guest/demo/conversion  --memory 200 --docker onanad/action-python-v3.9:conversion  conversion/__main__.py  --web true
+wsk action update guest/demo/censor      --memory 200 --docker onanad/action-python-v3.9:censor      censor/__main__.py  --web true
