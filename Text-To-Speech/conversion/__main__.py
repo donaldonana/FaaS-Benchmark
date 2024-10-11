@@ -55,7 +55,6 @@ def conversion(file):
             "-i", file, 
             "speeech.wav",
         ]
-    
     subprocess.run(
             ["ffmpeg", '-y'] + args,
             stdin=subprocess.DEVNULL,
