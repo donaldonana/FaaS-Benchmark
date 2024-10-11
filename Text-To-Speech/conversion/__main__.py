@@ -76,7 +76,6 @@ def main(args):
     process_begin = datetime.datetime.now()
     result = conversion("speeech.mp3")
     process_end = datetime.datetime.now()
-
     
     push_begin = datetime.datetime.now()
     push(result, ipv4)
