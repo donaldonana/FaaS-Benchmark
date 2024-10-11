@@ -90,9 +90,8 @@ def main(args):
             "pull" : (pull_end - pull_begin) / datetime.timedelta(seconds=1),
             "push" : (push_end - push_begin) / datetime.timedelta(seconds=1)
          },
-        "ipv4" : ipv4
         }
     
-    return  {"statusCode": 200, "headers": { 'Content-Type': 'application/json' }, "body":response}
+    return  {"statusCode": 200, "headers": { 'Content-Type': 'application/json' }, "body":response, "ipv4" : ipv4}
     
 

@@ -65,7 +65,6 @@ def conversion(file):
     return "speeech.wav"
 
 
-
 def main(args):
 
     ipv4 = args.get("ipv4", "192.168.1.120")
@@ -83,15 +82,15 @@ def main(args):
     push(result, ipv4)
     push_end = datetime.datetime.now()
 
-    args["wavefilesize"] = os.path.getsize(result)
+    args["body"]["wavefilesize"] = os.path.getsize(result)
 
-    args["conversion"] = {
+    args["body"]["conversion"] = {
             "process" : (process_end - process_begin) / datetime.timedelta(seconds=1),
             "pull" : (pull_end - pull_begin) / datetime.timedelta(seconds=1),
             "push" : (push_end - push_begin) / datetime.timedelta(seconds=1)
-         }
+        }
          
 
-    return  {"statusCode": 200, "headers": { 'Content-Type': 'application/json' }, "body":args}
+    return  args
     
 

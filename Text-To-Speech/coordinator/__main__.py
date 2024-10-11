@@ -2,7 +2,6 @@ import requests
 from multiprocessing import Process, Manager, Lock
 
 
-
 def start(action, result, lock):
     
     params = {"ipv4" : "130.190.118.188"}
@@ -14,11 +13,9 @@ def start(action, result, lock):
     with lock:
         result.update(r.json())  
 
-    return "ok"
-
+     
 def main(args):
 
-    procs = []
     first  = args.get("first")
     second = args.get("second")
 
@@ -26,15 +23,12 @@ def main(args):
     result = manager.dict()  # Shared dict
     lock = Lock()
 
-    proc = Process(target=start, args=(first,result, lock))
-    procs.append(proc)
-    proc.start()
+    p1 = Process(target=start, args=(first,result, lock))
+    p2 = Process(target=start, args=(second,result, lock))
 
-    proc = Process(target=start, args=(second,result, lock))
-    procs.append(proc)
-    proc.start()
+    p1.start()
+    p2.start()
+    p1.join()
+    p2.join()
 
-    for proc in procs:
-        proc.join()
-
-    return  {"args" : str(result)}
+    return  dict(result)
