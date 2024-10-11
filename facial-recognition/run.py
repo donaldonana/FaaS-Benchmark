@@ -15,7 +15,6 @@ ENERGY_FILE = f"{ENERGY_DIR}/{VIDEO}.txt"
 
 os.makedirs(ENERGY_DIR, exist_ok=True)
  
-# Loop (this only runs once, but is kept for clarity)
 for i in range(1, 2):
     # Start cpu-energy-meter in the background, output to ENERGY_FILE
     energy_process = subprocess.Popen(["cpu-energy-meter", "-r"], stdout=open(ENERGY_FILE, 'a'))

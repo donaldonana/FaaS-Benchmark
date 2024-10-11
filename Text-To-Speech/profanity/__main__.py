@@ -4,10 +4,6 @@ import json
 import datetime
 
 
-
-
-
-
 def pull(obj, ipv4):
   
     # Swift identifiant
@@ -106,7 +102,7 @@ def main(args):
 
 
     response = {
-         "NumberofProfanities" : str(len(result)),
+         "NumberOfProfanities" : str(len(result)),
          "profanity" : {
             "process" : (process_end - process_begin) / datetime.timedelta(seconds=1),
             "pull" : (pull_end - pull_begin) / datetime.timedelta(seconds=1),
@@ -114,5 +110,5 @@ def main(args):
          }
         }
 
-    return {"response" : response}
+    return {"profanity" : response}
 

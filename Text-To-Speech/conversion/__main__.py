@@ -61,7 +61,6 @@ def conversion(file):
             stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
         )
-    
 
     return "speeech.wav"
 
@@ -70,8 +69,6 @@ def conversion(file):
 def main(args):
 
     ipv4 = args.get("ipv4", "192.168.1.120")
-
-    response = args.get("response", {})
 
     pull_begin = datetime.datetime.now()
     pull("speeech.mp3", ipv4)
@@ -86,16 +83,15 @@ def main(args):
     push(result, ipv4)
     push_end = datetime.datetime.now()
 
-    response["wavefilesize"] = os.path.getsize(result)
+    args["wavefilesize"] = os.path.getsize(result)
 
-    response["conversion"] = {
+    args["conversion"] = {
             "process" : (process_end - process_begin) / datetime.timedelta(seconds=1),
             "pull" : (pull_end - pull_begin) / datetime.timedelta(seconds=1),
             "push" : (push_end - push_begin) / datetime.timedelta(seconds=1)
          }
-        
- 
+         
 
-    return {"response" :response}
+    return  args
     
 

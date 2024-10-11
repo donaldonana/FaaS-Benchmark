@@ -5,7 +5,6 @@ from torchvision.models import resnet50, resnet18, resnet152, resnet34 # type: i
 import boto3
 import datetime, json, os
 
-
 model = None
 
 def recognition(event):
@@ -28,7 +27,6 @@ def recognition(event):
     
     global model
     if not model:
-        
         model_process_begin = datetime.datetime.now()
         model = ResnetModel[event["resnet"]](pretrained=False)
         model.load_state_dict(torch.load(model_path))
@@ -42,11 +40,11 @@ def recognition(event):
         model_process_end = model_process_begin
     
     model_size = os.path.getsize(model_path)
-
         
     process_begin = datetime.datetime.now()
     
     input_image = Image.open(event["image"]).convert('RGB')
+    
     preprocess = transforms.Compose([
         transforms.Resize(256),
         transforms.CenterCrop(224),

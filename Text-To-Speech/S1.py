@@ -1,25 +1,49 @@
 import sys
-import subprocess
 import os
+import subprocess
+import signal
 
 
-if len(sys.argv) != 2:
+SPEECH_FILE     = "temp/speech.json"
+PROFANITY_FILE  = "temp/profanity.json"
 
-    print("Usage: script.py <ipv4> <process> <duration> <schema> <video>")
-    print("ipv4 : ipv4 for Swift connection")
-    sys.exit(1)
+def cordinatoor(ipv4):
 
-ipv4 = sys.argv[1]
- 
-os.system("wsk action update S1 --sequence text2speech,conversion > /dev/null")
+    processes = []
+    speech = [
+            "wsk", "action", "invoke", "S2", "-r", "--blocking",
+            "--param", "ipv4", ipv4, "--param", "schema", "S1"
+            ]
+    profanity = [
+        "wsk", "action", "invoke", "profanity", "--result",
+        "--param", "ipv4", ipv4
+    ] 
+    processes.append(subprocess.Popen(speech,  stdout=open(SPEECH_FILE, 'w')))
+    processes.append(subprocess.Popen(profanity,  stdout=open(PROFANITY_FILE, 'w')))
 
-command = [
-        "wsk", "action", "invoke", "S1", "-r", "--blocking",
-        "--param", "ipv4", ipv4,
-        ]
+    for process in processes:
+        process.wait()
+    
+    return {"message" : "Ok"}
 
-subprocess.run(
-            command,
-            stdin=subprocess.DEVNULL,
-            stderr=subprocess.PIPE, text=True
-        )
+
+def main():
+    ipv4 = sys.argv[1]
+
+    speech = [
+            "wsk", "action", "invoke", "censor", "-r", "--blocking",
+            "--param", "ipv4", ipv4, "-P", SPEECH_FILE, "-P", PROFANITY_FILE
+            ]
+     
+    for i in range(2):
+
+        energy_process = subprocess.Popen(["cpu-energy-meter", "-r"], stdout=open("result/energy/S2/energy.txt", 'a'))
+        cordinatoor(ipv4)
+        whiskprocess   = subprocess.Popen(speech)
+        whiskprocess.wait()
+        os.kill(energy_process.pid, signal.SIGINT)
+    
+    print("----end------")
+
+
+main()

@@ -1,83 +1,49 @@
 import datetime
 import os
 import swiftclient
+import cv2
+import pygame
 
- 
 
 def opencv_resize(path, w, h):
-
-    import cv2
-
     # Load the image
     img = cv2.imread(path)
-
     # resize image by specifying custom width and height
     resized = cv2.resize(img, (w, h))
-
     resize_image = "resize_"+path
     # Save the reduced image
-
     cv2.imwrite(resize_image, resized)
-
     return resize_image
 
 
 def pygame_resize(path, w, h):
-
-    import pygame
-
-    # Initialize Pygame
     pygame.init()
-
-    # Load the image
     image = pygame.image.load(path)
-
-    # Resize the image
     reduced_image = pygame.transform.scale(image, (w, h))
-
     resize_image = "resize_"+path
-    # Save the reduced image
     pygame.image.save(reduced_image, resize_image)
-
-    # Quit Pygame
     pygame.quit()
 
     return resize_image
 
 
 def wand_resize(path, w, h):
-
     from wand.image import Image
-
-    # Load the image
     img = Image(filename = path)
-
-    # Resize the image
     img.resize(w, h)
-
-    # Save the reduced image
     resize_image = "resize_"+path
-    # Save the reduced image
     img.save(filename=resize_image)
 
     return resize_image
 
  
 def pillow_resize(path, w, h):
-
     from PIL import Image
-    
-    # Load the image
     img = Image.open(path)
-
-    # Resize the image
     img.thumbnail((w,h))
-
     resize_image = "resize_"+path
-
-    # Save the reduced image
     img.save(resize_image)
-    
+
     return resize_image
        
 
@@ -95,7 +61,6 @@ def resize(args):
     	key=password,
     	auth_version='1'
 	)
-    
 
     container = 'whiskcontainer'
 
@@ -149,7 +114,7 @@ def main(args):
         "hight" : args.get("height", 60),
         "file"  : args.get("file", '15Mb.JPEG'),
         "bib"   : args.get("bib", "pillow"),
-        "ipv4"  : args.get("ipv4", "192.168.1.120")
+        "ipv4"  : args.get("ipv4", " ")
 
     })
 

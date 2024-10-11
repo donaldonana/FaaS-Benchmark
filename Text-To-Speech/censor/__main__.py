@@ -1,5 +1,4 @@
 import swiftclient
-import subprocess
 import os
 import json
 import wave
@@ -13,7 +12,6 @@ def push(obj, ipv4):
     auth_url = f'http://{ipv4}:8080/auth/v1.0'
     username = 'test:tester'
     password = 'testing'
-
 	# Connect to Swift
     conn = swiftclient.Connection(
     	authurl=auth_url,
@@ -35,9 +33,7 @@ def pull(obj, ipv4):
     auth_url = f'http://{ipv4}:8080/auth/v1.0'
     username = 'test:tester'
     password = 'testing'
-
     out = obj
-
     # Connect to Swift
     conn = swiftclient.Connection(
     	authurl=auth_url,
@@ -90,8 +86,6 @@ def main(args):
 
     ipv4 = args.get("ipv4", "192.168.1.120")
 
-    response = args.get("response", {})
-    
     pull_begin = datetime.datetime.now()
     pull("speeech.wav", ipv4)
     pull("index.json", ipv4)
@@ -105,13 +99,11 @@ def main(args):
     push(result, ipv4)
     push_end = datetime.datetime.now()
 
-    response["censoredfilesize"] = os.path.getsize("censored.wav")
-
-    response["conversion"] = {
+    args["WavCensoredSize"] = os.path.getsize("censored.wav")
+    args["censor"] = {
             "process" : (process_end - process_begin) / datetime.timedelta(seconds=1),
             "pull" : (pull_end - pull_begin) / datetime.timedelta(seconds=1),
             "push" : (push_end - push_begin) / datetime.timedelta(seconds=1)
         }
 
-   
-    return  response
+    return  args

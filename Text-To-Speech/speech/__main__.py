@@ -11,9 +11,7 @@ def pull(obj, ipv4):
     auth_url = f'http://{ipv4}:8080/auth/v1.0'
     username = 'test:tester'
     password = 'testing'
-
     out = obj 
-
     # Connect to Swift
     conn = swiftclient.Connection(
     	authurl=auth_url,
@@ -36,7 +34,6 @@ def push(obj, ipv4):
     auth_url = f'http://{ipv4}:8080/auth/v1.0'
     username = 'test:tester'
     password = 'testing'
-
 	# Connect to Swift
     conn = swiftclient.Connection(
     	authurl=auth_url,
@@ -75,7 +72,6 @@ def main(args):
     pull_begin = datetime.datetime.now()
     pull("texte.txt", ipv4)
     pull_end = datetime.datetime.now()
-
     
     process_begin = datetime.datetime.now()
     result, message = toSpeech("texte.txt")
@@ -86,15 +82,17 @@ def main(args):
     push_end = datetime.datetime.now()
 
     response = {
-         "MessageSize" : str(len(message)),
+         "textSize" : len(message),
          "fileSize" : os.path.getsize(result),
+         "schema" : args.get("schema"),
          "text2speech" : {
             "process" : (process_end - process_begin) / datetime.timedelta(seconds=1),
             "pull" : (pull_end - pull_begin) / datetime.timedelta(seconds=1),
             "push" : (push_end - push_begin) / datetime.timedelta(seconds=1)
-         }
+         },
+        "ipv4" : ipv4
         }
     
-    return  {"response" : response, "ipv4" : ipv4}
+    return  response
     
 
