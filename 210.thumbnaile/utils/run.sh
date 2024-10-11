@@ -21,15 +21,12 @@ ENERGY_DIR="result/energy"
 
 mkdir -p "$ENERGY_DIR/$IMAGE" 
  
- 
 for LIB in "${LIBRARY[@]}"; do
 
   echo -e "$LIB"  
-
   ENERGY_FILE="$ENERGY_DIR/$IMAGE/$LIB$IMAGE.txt"  
     
   for (( i = 1; i <= 10; i++ )); do
-    	 
     # Launch cpu-energy-meter in background and save her PID
     cpu-energy-meter -r >> $ENERGY_FILE &
     METER_PID=$!
