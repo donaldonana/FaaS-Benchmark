@@ -25,6 +25,7 @@ else
     docker pull onanad/action-python-v3.9:text2speech
     docker pull onanad/action-python-v3.9:conversion
     docker pull onanad/action-python-v3.9:censor
+    docker pull onanad/action-python-v3.9:profanity
 
 fi
 
@@ -32,3 +33,4 @@ wsk package update demo
 wsk action update guest/demo/text2speech --memory 250 --docker onanad/action-python-v3.9:text2speech speech/__main__.py --web true
 wsk action update guest/demo/conversion  --memory 200 --docker onanad/action-python-v3.9:conversion  conversion/__main__.py  --web true
 wsk action update guest/demo/censor      --memory 200 --docker onanad/action-python-v3.9:censor      censor/__main__.py  --web true
+wsk action update guest/demo/profanity   --memory 200 --docker onanad/action-python-v3.9:profanity  profanity/__main__.py --web true 
