@@ -2,7 +2,7 @@
 
 def main(args):
 
-    n = args.get("iter", 8e7)
+    n = args.get("iter", 6e7)
 
     for i in range(int(n)):
         a = i + 1
