@@ -7,4 +7,4 @@ def main(args):
     for i in range(int(n)):
         a = i + 1
 
-    return {"result" : a}
+    return args

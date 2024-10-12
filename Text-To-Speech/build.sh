@@ -39,9 +39,14 @@ wsk action update censor --docker onanad/action-python-v3.9:censor   censor/__ma
 # coordinator acion
 wsk action update coord coordinator/__main__.py
 
+wsk action update validation  validation/__main__.py  
+
 wsk action update S3 --sequence coord,censor
 
 wsk action update S4 --sequence validation,demo/S2
+
+wsk action update S5 --sequence validation,coord,censor
+
 
 
 
