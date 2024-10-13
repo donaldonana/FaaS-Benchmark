@@ -25,12 +25,12 @@ prewarm() {
   wsk action invoke $PACKAGE/$ACTION -r --param ipv4 $IPV4
 }
 
-echo -e "--->Pull Docker image begin"
+echo -e "---->Pull Docker image begin"
 pull
-echo -e "--->Prewarm Docker image begin"
+echo -e "---->Prewarm Docker image begin"
 prewarm
 
-echo -e "--->Experiment begin"
+echo -e "---->Experiment begin"
 mkdir -p "result/energy/S1/" 
  
 for (( i = 1; i <= 10; i++ )); do
