@@ -37,6 +37,7 @@ wsk action update guest/demo/S2  --sequence demo/text2speech,demo/conversion  --
 # censor acion
 wsk action update censor --docker onanad/action-python-v3.9:censor   censor/__main__.py  
 # coordinator acion
+
 wsk action update coord coordinator/__main__.py
 
 wsk action update validation  validation/__main__.py  
