@@ -26,8 +26,6 @@ fi
 
 # demo package for web action
 wsk package update demo
-# text to speech acion
-wsk action update guest/demo/text2speech --docker onanad/action-python-v3.9:text2speech speech/__main__.py --web true
 # conversion acion
 wsk action update guest/demo/conversion --docker onanad/action-python-v3.9:conversion conversion/__main__.py  --web true
 # profanity acion
