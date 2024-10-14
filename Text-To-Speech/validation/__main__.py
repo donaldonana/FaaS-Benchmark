@@ -16,6 +16,6 @@ def main(args):
             "process" : (process_end - process_begin) / datetime.timedelta(seconds=1),
             "pull" : 0,
             "push" : 0
-         },
+         }
 
     return args

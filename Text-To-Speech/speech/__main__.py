@@ -90,7 +90,7 @@ def main(args):
             "pull" : (pull_end - pull_begin) / datetime.timedelta(seconds=1),
             "push" : (push_end - push_begin) / datetime.timedelta(seconds=1)
          },
-         "validation" : args.get("validation", {}),
+         "validation" : args.get("validation", {"process" : 0, "pull" : 0, "push" : 0}),
          "ipv4" : ipv4
         }
     

@@ -8,21 +8,18 @@ if [ "$#" -ne 1 ]; then
 fi
 
 IPV4=$1
-ACTION="S2"
-PACKAGE="demo"
+HUB="onanad"
 
 pull() {
-  
-  docker pull onanad/action-python-v3.9:text2speech
-  docker pull onanad/action-python-v3.9:conversion
-  wsk action update guest/demo/conversion --docker onanad/action-python-v3.9:conversion conversion/__main__.py  --web true
-  wsk action update guest/demo/text2speech --docker onanad/action-python-v3.9:text2speech speech/__main__.py  --web true
+  docker pull $HUB/action-python-v3.9:text2speech
+  docker pull $HUB/action-python-v3.9:conversion
+  wsk action update guest/demo/conversion  --docker  $HUB/action-python-v3.9:conversion conversion/__main__.py  --web true
+  wsk action update guest/demo/text2speech --docker  $HUB/action-python-v3.9:text2speech speech/__main__.py     --web true
   wsk action update guest/demo/S2  --sequence demo/text2speech,demo/conversion  --web true
 }
 
 prewarm() {
-
-  wsk action invoke $PACKAGE/$ACTION -r --param ipv4 $IPV4
+  wsk action invoke demo/S2  -r --param ipv4 $IPV4
 }
 
 echo -e "--->Pull Docker image begin"
@@ -30,8 +27,8 @@ pull
 echo -e "--->Prewarm Docker image begin"
 prewarm
 
-echo -e "--->Experiment begin"
-mkdir -p "result/energy/S1/" 
+echo  -e "--->Experiment begin"
+mkdir -p "result/energy/S2/" 
 
 for (( i = 1; i <= 10; i++ )); do
     # Launch cpu-energy-meter in background and save her PID
@@ -39,7 +36,8 @@ for (( i = 1; i <= 10; i++ )); do
     METER_PID=$!
 
     wsk action invoke demo/S2 -r \
-      --param ipv4 "$IPV4" >>  "result/result.txt"
+      --param ipv4 "$IPV4" \
+      --param schema "S2" >> "result/result.txt" 
 
     kill -SIGINT $METER_PID
 

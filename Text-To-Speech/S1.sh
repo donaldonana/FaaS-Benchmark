@@ -8,21 +8,18 @@ if [ "$#" -ne 1 ]; then
 fi
 
 IPV4=$1
-ACTION="text2speech"
-PACKAGE="demo"
+HUB="onanad"
 
 pull() {
   
-  HUB=onanad
-  IMAGE="$HUB/action-python-v3.9:$ACTION"
-  SOURCE="speech/__main__.py"
+  IMAGE="$HUB/action-python-v3.9:text2speech"
   docker pull  $IMAGE
-  wsk action update guest/$PACKAGE/$ACTION --docker $IMAGE $SOURCE --web true
+  wsk action update guest/demo/text2speech --docker $IMAGE speech/__main__.py --web true
 }
 
 prewarm() {
 
-  wsk action invoke $PACKAGE/$ACTION -r --param ipv4 $IPV4
+  wsk action invoke demo/text2speech -r --param ipv4 $IPV4
 }
 
 echo -e "---->Pull Docker image begin"
