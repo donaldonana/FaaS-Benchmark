@@ -45,8 +45,6 @@ for (( i = 1; i <= 10; i++ )); do
       --param schema "S3" >>  "result/result.txt"
     kill -SIGINT $METER_PID
 
-    kill -SIGINT $METER_PID
-
     echo -e "$i"
 		
 	sleep 2

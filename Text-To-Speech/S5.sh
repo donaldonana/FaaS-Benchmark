@@ -8,18 +8,17 @@ if [ "$#" -ne 1 ]; then
 fi
 
 IPV4=$1
-HUB="onanad"
 
 pull() {
 
-  docker pull $HUB/action-python-v3.9:censor
-  docker pull $HUB/action-python-v3.9:text2speech
-  docker pull $HUB/action-python-v3.9:conversion
-  docker pull $HUB/action-python-v3.9:profanity
+  docker pull onanad/action-python-v3.9:censor
+  docker pull onanad/action-python-v3.9:text2speech
+  docker pull onanad/action-python-v3.9:conversion
+  docker pull onanad/action-python-v3.9:profanity
 
-  wsk action update guest/demo/conversion  --docker  $HUB/action-python-v3.9:conversion conversion/__main__.py  --web true
-  wsk action update guest/demo/text2speech --docker  $HUB/action-python-v3.9:text2speech speech/__main__.py     --web true
-  wsk action update guest/demo/profanity   --docker  $HUB/action-python-v3.9:profanity profanity/__main__.py    --web true
+  wsk action update guest/demo/conversion  --docker  onanad/action-python-v3.9:conversion conversion/__main__.py  --web true
+  wsk action update guest/demo/text2speech --docker  onanad/action-python-v3.9:text2speech speech/__main__.py     --web true
+  wsk action update guest/demo/profanity   --docker  onanad/action-python-v3.9:profanity profanity/__main__.py    --web true
   wsk action update guest/demo/S2  --sequence demo/text2speech,demo/conversion  --web true 
   wsk action update coord coordinator/__main__.py
 
@@ -42,19 +41,16 @@ echo -e "--->Experiment begin"
 mkdir -p "result/energy/S5/" 
 
 for (( i = 1; i <= 10; i++ )); do
-    # Launch cpu-energy-meter in background and save her PID
-    cpu-energy-meter -r >> "result/energy/S5/energy.txt" &
-    METER_PID=$!
+  # Launch cpu-energy-meter in background and save her PID
+  cpu-energy-meter -r >> "result/energy/S5/energy.txt" &
+  METER_PID=$!
 
-    wsk action invoke S5 -r \
-      --param ipv4 "$IPV4" \
-      --param schema "S5" >>  "result/result.txt"
-    kill -SIGINT $METER_PID
+  wsk action invoke S5 -r \
+    --param ipv4 "$IPV4" \
+    --param schema "S5" >>  "result/result.txt"
+  kill -SIGINT $METER_PID
 
-    kill -SIGINT $METER_PID
-
-    echo -e "$i"
-		
+  echo -e "$i"
 	sleep 2
 	
 done

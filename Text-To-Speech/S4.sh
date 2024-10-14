@@ -39,9 +39,7 @@ for (( i = 1; i <= 10; i++ )); do
     wsk action invoke S4 -r \
       --param ipv4 "$IPV4" \
       --param schema "S4" >> "result/result.txt" 
-
     kill -SIGINT $METER_PID
-
     echo -e "$i"
 		
 	sleep 2
