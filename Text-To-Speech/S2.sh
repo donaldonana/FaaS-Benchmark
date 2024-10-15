@@ -30,7 +30,7 @@ prewarm
 echo  -e "--->Experiment begin"
 mkdir -p "result/energy/S2/" 
 
-for (( i = 1; i <= 50; i++ )); do
+for (( i = 1; i <= 30; i++ )); do
     # Launch cpu-energy-meter in background and save her PID
     cpu-energy-meter -r >> "result/energy/S2/energy.txt" &
     METER_PID=$!
@@ -43,7 +43,7 @@ for (( i = 1; i <= 50; i++ )); do
 
     echo -e "$i"
 		
-	sleep 2
+	sleep 4
 	
 done
     

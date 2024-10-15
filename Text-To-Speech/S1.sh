@@ -32,7 +32,7 @@ run() {
 
     echo -e "$i"
 
-    sleep 2
+    sleep 4
 	
   done
 }
