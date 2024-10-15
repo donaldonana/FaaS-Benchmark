@@ -13,6 +13,7 @@ def opencv_resize(path, w, h):
     resize_image = "resize_"+path
     # Save the reduced image
     cv2.imwrite(resize_image, resized)
+    
     return resize_image
 
 
@@ -61,7 +62,6 @@ def resize(args):
     	key=password,
     	auth_version='1'
 	)
-
     container = 'whiskcontainer'
 
     # Image Downloading
@@ -109,13 +109,11 @@ def main(args):
  
     # Apply Resize Operation 
     result = resize({
-
         "width" : args.get("width", 60),
         "hight" : args.get("height", 60),
         "file"  : args.get("file", '15Mb.JPEG'),
         "bib"   : args.get("bib", "pillow"),
         "ipv4"  : args.get("ipv4", " ")
-
     })
 
     return result

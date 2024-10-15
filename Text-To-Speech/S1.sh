@@ -8,40 +8,36 @@ if [ "$#" -ne 1 ]; then
 fi
 
 IPV4=$1
-HUB="onanad"
 
 pull() {
-  
-  IMAGE="$HUB/action-python-v3.9:text2speech"
+  IMAGE="onanad/action-python-v3.9:text2speech"
   docker pull  $IMAGE
   wsk action update guest/demo/text2speech --docker $IMAGE speech/__main__.py --web true
 }
 
 prewarm() {
-
-  wsk action invoke demo/text2speech -r --param ipv4 $IPV4
+  wsk action invoke demo/text2speech -r --param ipv4 $IPV4 --param schema "S1"
 }
 
-echo -e "---->Pull Docker image begin"
-pull
-echo -e "---->Prewarm Docker image begin"
-prewarm
+run() {
+  for (( i = 1; i <= 30; i++ )); 
+  do
+    cpu-energy-meter -r >> "result/energy/S1/energy.txt" &
+    METER_PID=$!
 
-echo -e "---->Experiment begin"
-mkdir -p "result/energy/S1/" 
- 
-for (( i = 1; i <= 50; i++ )); do
-  cpu-energy-meter -r >> "result/energy/S1/energy.txt" &
-  METER_PID=$!
+    wsk action invoke demo/text2speech -r \
+      --param ipv4 "$IPV4" \
+      --param schema "S1" >>  "result/result.txt"
+    kill -SIGINT $METER_PID
 
-  wsk action invoke demo/text2speech -r \
-    --param ipv4 "$IPV4" \
-    --param schema "S1" >>  "result/result.txt"
-  kill -SIGINT $METER_PID
+    echo -e "$i"
 
-  echo -e "$i"
-
-	sleep 2
+    sleep 2
 	
-done
-    
+  done
+}
+
+echo -e "---->Pull Docker image begin" & pull
+echo -e "---->Prewarm Docker image begin" & prewarm
+mkdir -p "result/energy/S1/" 
+echo -e "---->Experiment begin" & run
