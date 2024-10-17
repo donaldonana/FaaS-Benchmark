@@ -30,7 +30,9 @@ fi
 
 wsk action update thumb --docker onanad/action-python-v3.9:thumb __main__.py --web true
 
-wsk action invoke thumb --result --param bib pillow --param file 500b.JPEG --param ipv4 "$ipv4"
+wsk action invoke thumb --result --param bib pillow --param file 500b.JPEG --param ipv4 "$IPV4"
+
+echo -e "---start"
 
 # Library List
 LIBRARY=("pillow" "wand" "pygame" "opencv")
