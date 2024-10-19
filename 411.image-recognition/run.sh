@@ -53,8 +53,8 @@ for MOD in "${MODEL[@]}"; do
 
     wsk action invoke imgrec -r \
       --param resnet "$MOD" \
-      --param ipv4 "$IPV4" \
-      --param image "$IMAGE" >> $RESULT_FILE
+      --param ipv4   "$IPV4" \
+      --param image  "$IMAGE" >> $RESULT_FILE
 
     kill -SIGINT $METER_PID
 
