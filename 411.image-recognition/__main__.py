@@ -65,7 +65,6 @@ def recognition(event):
     process_time = (process_end - process_begin) / datetime.timedelta(seconds=1)
     
     return {
-
             'label': label, 
             'prob' : max_prob.item(),
             'idx': max_prob_index.item(),
@@ -75,7 +74,6 @@ def recognition(event):
             'image' : event["image"],
             'model' : event["resnet"],
             'model_size' : model_size
-
             }
              
         

@@ -44,7 +44,7 @@ mkdir -p "$ENERGY_DIR/$IMAGE"
 for MOD in "${MODEL[@]}"; do
 
   echo -e "$MOD"  
-  ENERGY_FILE="$ENERGY_DIR/$IMAGE/$LIB$IMAGE.txt"  
+  ENERGY_FILE="$ENERGY_DIR/$IMAGE/$MOD$IMAGE.txt"  
     
   for (( i = 1; i <= 10; i++ )); do
     # Launch cpu-energy-meter in background and save her PID
