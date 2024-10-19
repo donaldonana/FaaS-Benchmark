@@ -28,7 +28,7 @@ fi
 
 wsk action update imgrec --timeout 300000 --memory 1024 --docker onanad/action-python-v3.9:imgrec __main__.py --web true
 
-wsk action invoke imgrec --result  --param ipv4 "$IPV4"  --param image 1Mb.JPEG --param resnet resnet50
+wsk action invoke imgrec --result  --param ipv4 "$IPV4"  --param image 1Mb.JPEG --param resnet resnet152
 
 echo -e "---start"
 
@@ -52,9 +52,9 @@ for MOD in "${MODEL[@]}"; do
     METER_PID=$!
 
     wsk action invoke imgrec -r \
-      --param bib "$MOD" \
+      --param resnet "$MOD" \
       --param ipv4 "$IPV4" \
-      --param file "$IMAGE" >> $RESULT_FILE
+      --param image "$IMAGE" >> $RESULT_FILE
 
     kill -SIGINT $METER_PID
 
