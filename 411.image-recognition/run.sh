@@ -60,7 +60,7 @@ for MOD in "${MODEL[@]}"; do
 
     echo -e "$i"
 		
-		sleep 2
+	sleep 2
 	
   done
     
