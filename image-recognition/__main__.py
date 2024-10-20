@@ -31,9 +31,9 @@ def recognition(event):
     image_download_end = datetime.datetime.now()
     
     # Load class index file
-    class_idx = json.load(open(os.path.join("app", "imagenet_class_index.json"), 'r'))
+    class_idx = json.load(open(os.path.join("/app", "imagenet_class_index.json"), 'r'))
     idx2label = [class_idx[str(e)][1] for e in range(len(class_idx))]
-    model_path = os.path.join("app", event["resnet"]+'.pth')
+    model_path = os.path.join("/app", event["resnet"]+'.pth')
     
     # Load the resnet model
     model_load_begin = datetime.datetime.now()
@@ -44,7 +44,7 @@ def recognition(event):
     model_size = os.path.getsize(model_path)
     
     # Begin image prediction
-    process_begin = datetime.datetime.now()
+    prediction_begin = datetime.datetime.now()
     input_image = Image.open(event["image"]).convert('RGB')
     preprocess = transforms.Compose([
         transforms.Resize(256),
@@ -57,20 +57,20 @@ def recognition(event):
     output = model(input_batch)
     prob = torch.nn.functional.softmax(output[0], dim=0)  
     max_prob, max_prob_index = torch.max(prob, dim=0)
-    # _, indices = torch.sort(output, descending = True)
     label = idx2label[max_prob_index]
-    process_end = datetime.datetime.now()
+    prediction_end = datetime.datetime.now()
 
-    download_time = (image_download_end- image_download_begin) / datetime.timedelta(seconds=1)
-    model_process_time = (model_load_end - model_load_begin) / datetime.timedelta(seconds=1)
-    process_time = (process_end - process_begin) / datetime.timedelta(seconds=1)
+    # Times compute
+    download_time   = (image_download_end - image_download_begin) / datetime.timedelta(seconds=1)
+    model_load_time = (model_load_end - model_load_begin) / datetime.timedelta(seconds=1)
+    prediction_time = (prediction_end - prediction_begin) / datetime.timedelta(seconds=1)
     
     return {
             'label': label, 
             'prob' : max_prob.item(),
-            'idx': max_prob_index.item(),
-            'model_process_time': model_process_time,
-            'process_time': process_time ,
+            'index': max_prob_index.item(),
+            'model_load_time': model_load_time,
+            'prediction_time': prediction_time ,
             'download_time' : download_time,
             'image' : event["image"],
             'model' : event["resnet"],
