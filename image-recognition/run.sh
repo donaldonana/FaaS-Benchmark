@@ -10,8 +10,8 @@ fi
 
 IPV4=$1
 IMAGE=$2
-BUILD="pull"
 RUN=$3
+BUILD="pull"
 
 if [ "$BUILD" != "push" ] && [ "$BUILD" != "pull" ]; then
   echo "Invalid build argument. Expected 'push' or 'pull'."
@@ -47,7 +47,6 @@ if [ "$RUN" == "1" ]; then
         --param resnet "$MOD" \
         --param ipv4   "$IPV4" \
         --param image  "$IMAGE" >> $RESULT_FILE
-
       kill -SIGINT $METER_PID
       echo -e "$i"
       sleep 2
