@@ -33,6 +33,7 @@ if [ "$RUN" == "1" ]; then
   MODEL=("resnet18" "resnet34" "resnet50" "resnet152")
   RESULT_FILE="result/result.txt"
   ENERGY_DIR="result/energy"
+  
   mkdir -p "$ENERGY_DIR/$IMAGE" 
   
   for MOD in "${MODEL[@]}"; do
