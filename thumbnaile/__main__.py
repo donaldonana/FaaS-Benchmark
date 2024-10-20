@@ -73,12 +73,10 @@ def resize(args):
     
     download_size = os.path.getsize(args["file"])
 
-
     # Image Resizing
     process_begin = datetime.datetime.now()
     out = biblio[args["bib"]](args["file"], args["width"], args["hight"])
     process_end = datetime.datetime.now()
-    
     out_size = os.path.getsize(out)
     
     # Result Uploading
@@ -88,8 +86,8 @@ def resize(args):
     upload_end = datetime.datetime.now()
 
     download_time = (download_end - download_begin) / datetime.timedelta(seconds=1)
-    upload_time = (upload_end - upload_begin) / datetime.timedelta(seconds=1)
-    process_time = (process_end - process_begin) / datetime.timedelta(seconds=1)
+    upload_time   = (upload_end - upload_begin) / datetime.timedelta(seconds=1)
+    process_time  = (process_end - process_begin) / datetime.timedelta(seconds=1)
 
 
     return {      

@@ -28,7 +28,6 @@ fi
 # Prewarm the container
 wsk action invoke thumb --result  --param ipv4 "$IPV4"  --param file 1Mb.JPEG --param bib "pillow"
 
-
 # Run the experiment
 if [ "$RUN" == "1" ]; then
   LIBRARY=("pillow" "wand" "pygame" "opencv")
