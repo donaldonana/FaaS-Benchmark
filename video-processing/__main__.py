@@ -6,12 +6,9 @@ from PIL import Image
 
 
 def video_to_gif_moviepy(input_video_path):
-
     from moviepy.editor import VideoFileClip
-
     # Load the video
     clip = VideoFileClip(input_video_path)
-    
     output_gif_path = "output.gif"
     # Write the GIF file
     clip.write_gif(output_gif_path)
@@ -20,17 +17,12 @@ def video_to_gif_moviepy(input_video_path):
     
 
 def video_to_gif_imageio(input_video_path):
-
     import imageio
-
     # Load the video
     reader = imageio.get_reader(input_video_path)
-    
     # Write the GIF file
     output_gif_path = "output.gif"
-
     writer = imageio.get_writer(output_gif_path)
-
     for frame in reader:
         writer.append_data(frame)
     writer.close()
@@ -39,13 +31,10 @@ def video_to_gif_imageio(input_video_path):
     
 
 def video_to_gif_opencv(input_video_path):
-
     import cv2
-
     # Open the video file
     cap = cv2.VideoCapture(input_video_path)
     frames = []
-
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -54,9 +43,7 @@ def video_to_gif_opencv(input_video_path):
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         # Append frame to the list
         frames.append(Image.fromarray(frame))
-
     cap.release()
-
     # Save frames as a GIF
     output_gif_path = "output.gif"
     frames[0].save(output_gif_path, save_all=True, append_images=frames[1:], loop=0)
@@ -65,7 +52,6 @@ def video_to_gif_opencv(input_video_path):
     
 
 def video_to_gif_ffmpeg(input_video_path):
-
     output_gif_path = "output.gif"
 
     args = ["-i", input_video_path, output_gif_path]
@@ -74,11 +60,10 @@ def video_to_gif_ffmpeg(input_video_path):
             stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
-     
     return output_gif_path
         
 
-def handler(args):
+def processing(args):
 
     # Swift identifiant
     auth_url = f'http://{args["ipv4"]}:8080/auth/v1.0'
@@ -92,7 +77,6 @@ def handler(args):
     	key=password,
     	auth_version='1'
 	)
-
     container = 'whiskcontainer'
      
     # Image Downloading
@@ -101,7 +85,6 @@ def handler(args):
     with open(args["file"], 'wb') as f:
         f.write(obj[1])
     download_end = datetime.datetime.now()
-    
     download_size = os.path.getsize(args["file"])
     
     # Video to Gif Transformation
@@ -136,7 +119,7 @@ biblio = {'moviepy' : video_to_gif_moviepy, 'ffmpeg' : video_to_gif_ffmpeg, 'ima
 def main(args):
 
     # Apply Resize Operation 
-    result = handler({
+    result = processing({
 
         "file"  : args.get("file", '1Mb.avi'),
         "bib"   : args.get("bib", "ffmpeg"),
