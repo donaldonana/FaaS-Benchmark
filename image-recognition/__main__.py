@@ -30,19 +30,20 @@ def recognition(event):
         f.write(obj[1])
     image_download_end = datetime.datetime.now()
     
-    # Load Image Class
-    class_idx = json.load(open('/app/imagenet_class_index.json', 'r'))
+    # Load class index file
+    class_idx = json.load(open(os.path.join("app", "imagenet_class_index.json"), 'r'))
     idx2label = [class_idx[str(e)][1] for e in range(len(class_idx))]
-    model_path = '/app/'+event["resnet"]+'.pth'
+    model_path = os.path.join("app", event["resnet"]+'.pth')
     
-    model_process_begin = datetime.datetime.now()
+    # Load the resnet model
+    model_load_begin = datetime.datetime.now()
     model = ResnetModel[event["resnet"]](pretrained=False)
     model.load_state_dict(torch.load(model_path))
     model.eval()
-    model_process_end = datetime.datetime.now()
-        
+    model_load_end = datetime.datetime.now()
     model_size = os.path.getsize(model_path)
-        
+    
+    # Begin image prediction
     process_begin = datetime.datetime.now()
     input_image = Image.open(event["image"]).convert('RGB')
     preprocess = transforms.Compose([
@@ -61,7 +62,7 @@ def recognition(event):
     process_end = datetime.datetime.now()
 
     download_time = (image_download_end- image_download_begin) / datetime.timedelta(seconds=1)
-    model_process_time = (model_process_end - model_process_begin) / datetime.timedelta(seconds=1)
+    model_process_time = (model_load_end - model_load_begin) / datetime.timedelta(seconds=1)
     process_time = (process_end - process_begin) / datetime.timedelta(seconds=1)
     
     return {
