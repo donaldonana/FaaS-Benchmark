@@ -120,7 +120,6 @@ def main(args):
         "process" : (process_end - process_begin) / datetime.timedelta(seconds=1),
         "pull" : (pull_end - pull_begin) / datetime.timedelta(seconds=1),
     }
-
     
     return {
         "status" : "Ok",
