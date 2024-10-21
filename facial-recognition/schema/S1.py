@@ -9,7 +9,6 @@ if len(sys.argv) != 7:
     print("duration : total video duration")
     print("schema : schema")
     print("video : video name")
-
     sys.exit(1)
 
 ipv4     = sys.argv[1]
