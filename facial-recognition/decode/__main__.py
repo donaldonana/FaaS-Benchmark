@@ -4,7 +4,6 @@ import datetime
 import swiftclient
 
 
-
 def pull(video, ipv4):
 
     # Swift identifiant
@@ -86,17 +85,14 @@ def decode(video, start, duration, chunkdir):
 def main(args):
 
     ipv4 = args.get("ipv4", "192.168.1.120")
-
     # start decoding  at n seconds
     start = args.get("start", "6")
     # decode n seconds of video    
     duration = args.get("duration", "6")  
-
     # path to the decode result (frames dicrectory)
     chunkdir = args.get("chunkdir", "chunkdir") 
 
     schema = args.get("schema", "S1")
-
     video = args.get("video", "queen.mp4") 
 
     pull(video, ipv4)
