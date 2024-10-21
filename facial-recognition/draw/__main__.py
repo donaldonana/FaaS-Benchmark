@@ -98,9 +98,7 @@ def draw(ref, chunkdir):
 def main(args):
     
     ipv4 = args.get("ipv4", "192.168.1.120")
-    
     ref = args.get("ref")
-    
     chunkdir = args.get("chunkdir", "chunkdir")
     
     pull_begin = datetime.datetime.now()
