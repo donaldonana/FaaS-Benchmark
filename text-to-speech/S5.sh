@@ -30,7 +30,7 @@ pull() {
 }
 
 prewarm() {
-  wsk action invoke S5  -r --param ipv4 $IPV4 --param text "1Ko.txt"
+  wsk action invoke S5  -r --param ipv4 $IPV4 --param text "1Ko.txt" --param schema "S5"
 }
 
 echo -e "--->Pull Docker image begin"

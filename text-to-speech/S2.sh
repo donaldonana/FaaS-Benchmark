@@ -19,7 +19,7 @@ pull() {
 }
 
 prewarm() {
-  wsk action invoke demo/S2  -r --param ipv4 $IPV4
+  wsk action invoke demo/S2  -r --param ipv4 $IPV4 --param text "1Ko.txt" --param schema "S2"
 }
 
 echo -e "--->Pull Docker image begin"
@@ -30,20 +30,28 @@ prewarm
 echo  -e "--->Experiment begin"
 mkdir -p "result/energy/S2/" 
 
-for (( i = 1; i <= 30; i++ )); do
+TEXTES=("1Ko.txt" "5Ko.txt" "12Ko.txt")
+
+for TEXT in "${TEXTES[@]}"; do
+
+  echo -e "$TEXT" 
+  for (( i = 1; i <= 2; i++ )); do
     # Launch cpu-energy-meter in background and save her PID
-    cpu-energy-meter -r >> "result/energy/S2/energy.txt" &
+    cpu-energy-meter -r >> "result/energy/S2/$TEXT" &
     METER_PID=$!
 
     wsk action invoke demo/S2 -r \
       --param ipv4 "$IPV4" \
-      --param schema "S2" >> "result/result.txt" 
+      --param schema "S2" \
+      --param text "$TEXT" >> "result/result.txt" 
 
     kill -SIGINT $METER_PID
 
     echo -e "$i"
 		
-	sleep 4
+	  sleep 6
+    
+  done
 	
 done
     
