@@ -62,7 +62,6 @@ def filter(file, char="*"):
 
 
 def extract_indexes(text, char="*"):
-
     indexes = []
     in_word = False
     start = 0
@@ -87,13 +86,15 @@ def extract_indexes(text, char="*"):
 def main(args):
 
     ipv4 = args.get("ipv4", "192.168.1.120")
+    text = args.get("text", "1Ko.txt")
+
 
     pull_begin = datetime.datetime.now()
-    pull("texte.txt", ipv4)
+    pull(text, ipv4)
     pull_end = datetime.datetime.now()
 
     process_begin = datetime.datetime.now()
-    resultfile, result = extract_indexes(filter("texte.txt"))
+    resultfile, result = extract_indexes(filter(text))
     process_end = datetime.datetime.now()
 
     push_begin = datetime.datetime.now()

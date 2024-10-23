@@ -76,7 +76,7 @@ def main(args):
     pull_end = datetime.datetime.now()
     
     process_begin = datetime.datetime.now()
-    result, message = toSpeech("texte.txt")
+    result, message = toSpeech(text)
     process_end = datetime.datetime.now()
 
     push_begin = datetime.datetime.now()
