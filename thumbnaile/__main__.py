@@ -89,7 +89,6 @@ def resize(args):
     upload_time   = (upload_end - upload_begin) / datetime.timedelta(seconds=1)
     process_time  = (process_end - process_begin) / datetime.timedelta(seconds=1)
 
-
     return {      
             'download_time': download_time,
             'download_size': download_size,
