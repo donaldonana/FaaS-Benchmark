@@ -53,7 +53,7 @@ for TEXT in "${TEXTES[@]}"; do
 
     echo -e "$i"
 		
-	sleep 4
+	sleep 6
 	
   done
 

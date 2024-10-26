@@ -58,7 +58,8 @@ for TEXT in "${TEXTES[@]}"; do
     kill -SIGINT $METER_PID
 
     echo -e "$i"
-    sleep 5
+
+    sleep 6
     
   done
 
