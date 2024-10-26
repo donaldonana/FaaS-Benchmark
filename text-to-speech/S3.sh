@@ -35,19 +35,27 @@ prewarm
 echo -e "--->Experiment begin"
 mkdir -p "result/energy/S3/" 
 
-for (( i = 1; i <= 30; i++ )); do
+TEXTES=("1Ko.txt" "5Ko.txt" "12Ko.txt" )
+
+for TEXT in "${TEXTES[@]}"; do
+
+  echo -e "$TEXT" 
+  for (( i = 1; i <= 2; i++ )); do
     # Launch cpu-energy-meter in background and save her PID
-    cpu-energy-meter -r >> "result/energy/S3/energy.txt" &
+    cpu-energy-meter -r >> "result/energy/S3/$TEXT" &
     METER_PID=$!
 
     wsk action invoke S3 -r \
       --param ipv4 "$IPV4" \
-      --param schema "S3" >>  "result/result.txt"
+      --param schema "S3" \
+      --param text "$TEXT" >> "result/result.txt"
     kill -SIGINT $METER_PID
 
     echo -e "$i"
 		
 	sleep 4
 	
+  done
+
 done
     

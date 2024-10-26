@@ -31,11 +31,15 @@ prewarm
 echo  -e "--->Experiment begin"
 mkdir -p "result/energy/S4/" 
 
-for (( i = 1; i <= 30; i++ )); do
-    # Launch cpu-energy-meter in background and save her PID
-    cpu-energy-meter -r >> "result/energy/S4/energy.txt" &
-    METER_PID=$!
+TEXTES=("1Ko.txt" "5Ko.txt" "12Ko.txt" )
 
+for TEXT in "${TEXTES[@]}"; do
+
+  echo -e "$TEXT" 
+  for (( i = 1; i <= 2; i++ )); do
+    # Launch cpu-energy-meter in background and save her PID
+    cpu-energy-meter -r >> "result/energy/S4/$TEXT" &
+    METER_PID=$!
     wsk action invoke S4 -r \
       --param ipv4 "$IPV4" \
       --param schema "S4" >> "result/result.txt" 
@@ -43,6 +47,7 @@ for (( i = 1; i <= 30; i++ )); do
     echo -e "$i"
 		
 	sleep 4
-	
+	done
+  
 done
     
