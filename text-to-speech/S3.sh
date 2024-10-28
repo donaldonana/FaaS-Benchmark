@@ -24,7 +24,7 @@ pull() {
 }
 
 prewarm() {
-  wsk action invoke S3  -r --param ipv4 $IPV4 --param text "5Ko.txt"
+  wsk action invoke S3  -r --param ipv4 $IPV4 --param text "12Ko.txt"
 }
 
 echo -e "--->Pull Docker image begin"

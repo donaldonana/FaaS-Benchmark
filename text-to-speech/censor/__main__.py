@@ -49,36 +49,39 @@ def pull(obj, ipv4):
 
     return ("Ok")
 
-
 def censor(file):
+    # Open the input WAV file
+    with wave.open(file, 'rb') as wav_file:
+        params = wav_file.getparams()
+        nframes = wav_file.getnframes()
+        frames = wav_file.readframes(nframes)
 
-    wav_file = wave.open(file, 'rb')  
-    nframes = wav_file.getnframes()
-    frames = wav_file.readframes(nframes)
     # Convert audio frames to numpy array
     samples = np.frombuffer(frames, dtype=np.int16)
     samples = samples.copy()
 
+    # Load the index JSON data
     with open("index.json", 'r') as f:
         indexes = json.load(f)
 
-    for index, s in enumerate(samples):
-    
-        for start, end in indexes:
-            start_sample = int(start * len(samples))
-            end_sample = int(end * len(samples))
+    # Calculate total number of samples
+    total_samples = len(samples)
 
-            if index > start_sample and index < end_sample:
-                samples[index] = 0
+    # Loop through each range in the index file and zero out the samples in that range
+    for start, end in indexes:
+        start_sample = int(start * total_samples)
+        end_sample = int(end * total_samples)
+        samples[start_sample:end_sample] = 0
+
     # Convert the modified numpy array back to bytes
     new_frames = samples.tobytes()
-    
+
+    # Save the censored audio to a new file
     with wave.open("censored.wav", 'wb') as wav_out:
-        wav_out.setparams(wav_file.getparams())
+        wav_out.setparams(params)
         wav_out.writeframes(new_frames)
 
     return "censored.wav"
-
 
 def main(args):
 
