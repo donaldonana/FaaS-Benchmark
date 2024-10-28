@@ -18,17 +18,17 @@ pull() {
   wsk action update guest/demo/conversion  --docker  $HUB/action-python-v3.9:conversion conversion/__main__.py  --web true
   wsk action update guest/demo/text2speech --docker  $HUB/action-python-v3.9:text2speech speech/__main__.py     --web true
   wsk action update guest/demo/profanity --docker onanad/action-python-v3.9:profanity profanity/__main__.py --web true 
-  wsk action update censor --docker onanad/action-python-v3.9:censor   censor/__main__.py 
+  wsk action update censor --docker onanad/action-python-v3.9:censor --memory 300  censor/__main__.py 
   wsk action update coord coordinator/__main__.py
-  wsk action update S3 --sequence coord,censor
+  wsk action update S3 --sequence coord,censor  
 }
 
 prewarm() {
-  wsk action invoke S3  -r --param ipv4 $IPV4
+  wsk action invoke S3  -r --param ipv4 $IPV4 --param text "5Ko.txt"
 }
 
 echo -e "--->Pull Docker image begin"
-pull
+# pull
 echo -e "--->Prewarm Docker image begin"
 prewarm
 

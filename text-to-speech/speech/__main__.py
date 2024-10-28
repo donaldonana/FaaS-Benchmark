@@ -89,7 +89,6 @@ def espeakSpeech(file):
     command = f'espeak-ng "{message}" --stdout | ffmpeg -y -f wav -i pipe: -acodec libmp3lame speech.mp3 -loglevel quiet'
     # Run the command in the shell
     subprocess.run(command, shell=True, check=True)
-
     return "speech.mp3", message
 
 

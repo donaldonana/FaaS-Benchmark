@@ -70,11 +70,9 @@ def censor(file):
 
             if index > start_sample and index < end_sample:
                 samples[index] = 0
-        
     # Convert the modified numpy array back to bytes
     new_frames = samples.tobytes()
     
-    # Write the new frames to a new WAV file
     with wave.open("censored.wav", 'wb') as wav_out:
         wav_out.setparams(wav_file.getparams())
         wav_out.writeframes(new_frames)
@@ -87,12 +85,12 @@ def main(args):
     ipv4 = args.get("ipv4", "192.168.1.120")
 
     pull_begin = datetime.datetime.now()
-    pull("speeech.wav", ipv4)
+    pull("speech.wav", ipv4)
     pull("index.json", ipv4)
     pull_end = datetime.datetime.now()
     
     process_begin = datetime.datetime.now()
-    result = censor("speeech.wav")
+    result = censor("speech.wav")
     process_end = datetime.datetime.now()
 
     push_begin = datetime.datetime.now()

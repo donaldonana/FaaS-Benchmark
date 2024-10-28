@@ -43,7 +43,7 @@ def pull(obj, ipv4):
     container = 'whiskcontainer'
 
     file = conn.get_object(container, obj)
-    with open("speeech.mp3", 'wb') as f:
+    with open("speech.mp3", 'wb') as f:
         f.write(file[1])
 
     return ("Ok")
@@ -53,7 +53,7 @@ def conversion(file):
 
     args = [
             "-i", file, 
-            "speeech.wav",
+            "speech.wav",
         ]
     subprocess.run(
             ["ffmpeg", '-y'] + args,
@@ -61,7 +61,7 @@ def conversion(file):
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
         )
 
-    return "speeech.wav"
+    return "speech.wav"
 
 
 def main(args):
@@ -69,11 +69,11 @@ def main(args):
     ipv4 = args.get("ipv4", "192.168.1.120")
 
     pull_begin = datetime.datetime.now()
-    pull("speeech.mp3", ipv4)
+    pull("speech.mp3", ipv4)
     pull_end = datetime.datetime.now()
     
     process_begin = datetime.datetime.now()
-    result = conversion("speeech.mp3")
+    result = conversion("speech.mp3")
     process_end = datetime.datetime.now()
     
     push_begin = datetime.datetime.now()
