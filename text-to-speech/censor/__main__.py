@@ -67,7 +67,6 @@ def censor(file):
     # Calculate total number of samples
     total_samples = len(samples)
 
-    # Loop through each range in the index file and zero out the samples in that range
     for start, end in indexes:
         start_sample = int(start * total_samples)
         end_sample = int(end * total_samples)

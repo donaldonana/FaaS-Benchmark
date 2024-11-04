@@ -79,6 +79,7 @@ def split_text(text, max_length=1500):
         chunks.append(text[:split_index + 1].strip())
         text = text[split_index + 1:].strip()
     chunks.append(text)
+
     return chunks
 
 
@@ -95,7 +96,7 @@ def espeakSpeech(file):
 def pollySpeech(file):
      
     polly = boto3.client('polly',
-                        #    Initialize a Polly client using Boto3 with your credential
+                        #    Amazone Api credential here. 
                           region_name='us-west-2')
     
     with open(file, "r") as f:

@@ -42,7 +42,8 @@ for TEXT in "${TEXTES[@]}"; do
     METER_PID=$!
     wsk action invoke S4 -r \
       --param ipv4 "$IPV4" \
-      --param schema "S4" >> "result/result.txt" 
+      --param schema "S4" \
+      --param text "$TEXT" >> "result/result.txt" 
     kill -SIGINT $METER_PID
     echo -e "$i"
 		
