@@ -3,9 +3,9 @@
 if [ "$#" -ne 4 ]; then
   echo "Usage: $0 <ipv4> <image> <run>"
   echo "ipv4 : ipv4 for swift connection"
-  echo "run :  run"
+  echo "run  :  run"
   echo "update :  update"
-  echo "image :  image"
+  echo "image  :  image"
   exit 1
 fi
 
@@ -48,6 +48,7 @@ if [ "$RUN" == "1" ]; then
       echo -e "$i"
 
       sleep 2
+      
     done
 
   done
