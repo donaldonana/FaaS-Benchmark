@@ -16,12 +16,12 @@ VIDEO=$4
 
 
 if [ "$UPDATE" == "1" ]; then
-  docker pull onanad/action-python-v3.9:thumb
-  wsk action update thumb --docker onanad/action-python-v3.9:thumb __main__.py  
+  docker pull onanad/action-python-v3.9:proc
+  wsk action update proc --docker onanad/action-python-v3.9:proc __main__.py  
 fi
 
 # Prewarm the container
-wsk action invoke thumb --result \
+wsk action invoke proc --result \
   --param ipv4 "$IPV4" \
   --param file 1Mb.avi \
   --param bib "moviepy"
@@ -47,7 +47,7 @@ if [ "$RUN" == "1" ]; then
 
       kill -SIGINT $METER_PID
       echo -e "$i"
-      
+
       sleep 2
     done
       
