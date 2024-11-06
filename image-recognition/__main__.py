@@ -37,45 +37,45 @@ def recognition(event):
     
     # Load the resnet model
     model_load_begin = datetime.datetime.now()
-    model = resnet152(pretrained=False)
-    # model.load_state_dict(torch.load(model_path))
-    # model.eval()
+    model = ResnetModel[event["resnet"]](pretrained=False)
+    model.load_state_dict(torch.load(model_path))
+    model.eval()
     model_load_end = datetime.datetime.now()
     model_size = os.path.getsize(model_path)
     
-    # # Begin image prediction
-    # prediction_begin = datetime.datetime.now()
-    # input_image = Image.open(event["image"]).convert('RGB')
-    # preprocess = transforms.Compose([
-    #     transforms.Resize(256),
-    #     transforms.CenterCrop(224),
-    #     transforms.ToTensor(),
-    #     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-    # ])
-    # input_tensor = preprocess(input_image)
-    # input_batch = input_tensor.unsqueeze(0)  
-    # output = model(input_batch)
-    # prob = torch.nn.functional.softmax(output[0], dim=0)  
-    # max_prob, max_prob_index = torch.max(prob, dim=0)
-    # label = idx2label[max_prob_index]
-    # prediction_end = datetime.datetime.now()
+    # Begin image prediction
+    prediction_begin = datetime.datetime.now()
+    input_image = Image.open(event["image"]).convert('RGB')
+    preprocess = transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ])
+    input_tensor = preprocess(input_image)
+    input_batch = input_tensor.unsqueeze(0)  
+    output = model(input_batch)
+    prob = torch.nn.functional.softmax(output[0], dim=0)  
+    max_prob, max_prob_index = torch.max(prob, dim=0)
+    label = idx2label[max_prob_index]
+    prediction_end = datetime.datetime.now()
 
-    # # Times compute
-    # download_time   = (image_download_end - image_download_begin) / datetime.timedelta(seconds=1)
-    # model_load_time = (model_load_end - model_load_begin) / datetime.timedelta(seconds=1)
-    # prediction_time = (prediction_end - prediction_begin) / datetime.timedelta(seconds=1)
+    # Times compute
+    download_time   = (image_download_end - image_download_begin) / datetime.timedelta(seconds=1)
+    model_load_time = (model_load_end - model_load_begin) / datetime.timedelta(seconds=1)
+    prediction_time = (prediction_end - prediction_begin) / datetime.timedelta(seconds=1)
     
-    # return {
-    #         'label': label, 
-    #         'prob' : max_prob.item(),
-    #         'index': max_prob_index.item(),
-    #         'model_load_time': model_load_time,
-    #         'prediction_time': prediction_time ,
-    #         'download_time' : download_time,
-    #         'image' : event["image"],
-    #         'model' : event["resnet"],
-    #         'model_size' : model_size
-    #         }
+    return {
+            'label': label, 
+            'prob' : max_prob.item(),
+            'index': max_prob_index.item(),
+            'model_load_time': model_load_time,
+            'prediction_time': prediction_time ,
+            'download_time' : download_time,
+            'image' : event["image"],
+            'model' : event["resnet"],
+            'model_size' : model_size
+            }
              
         
 ResnetModel = {'resnet18':resnet18, 'resnet34':resnet34, 'resnet50':resnet50, 'resnet152':resnet152}
@@ -88,4 +88,4 @@ def main(args):
         "ipv4"   : args.get("ipv4", " "),
     })
      
-    return {"result" : "ls"}
+    return result

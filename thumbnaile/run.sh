@@ -33,7 +33,7 @@ if [ "$RUN" == "1" ]; then
 
   for LIB in "${LIBRARY[@]}"; do
     echo -e "$LIB"
-    ENERGY_FILE="$ENERGY_DIR/$IMAGE/$MOD$IMAGE.txt"  
+    ENERGY_FILE="result/energy/$IMAGE/$LIB$IMAGE.txt"  
 
     for (( i = 1; i <= 10; i++ )); do
       # Launch cpu-energy-meter in background and save its PID
@@ -45,7 +45,7 @@ if [ "$RUN" == "1" ]; then
         --param file "$IMAGE" >> result/result.txt
 
       kill -SIGINT "$METER_PID"
-      
+
       echo -e "$i"
 
       sleep 2

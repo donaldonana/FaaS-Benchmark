@@ -19,9 +19,8 @@ if [ "$UPDATE" == "1" ]; then
   wsk action update imgrec -m 1024 --docker onanad/action-python-v3.9:imgrec __main__.py  
 fi
 
-
 # Prewarm the container
-wsk action invoke imgrec --result  --param ipv4 "$IPV4"  --param image 1Mb.JPEG --param resnet resnet18
+wsk action invoke imgrec --result  --param ipv4 "$IPV4"  --param image 1Mb.JPEG --param resnet resnet152
 
 # Run the experiment
 if [ "$RUN" == "1" ]; then
@@ -31,11 +30,11 @@ if [ "$RUN" == "1" ]; then
   
   for MOD in "${MODEL[@]}"; do
     echo -e "$MOD"  
-    ENERGY_FILE="$ENERGY_DIR/$IMAGE/$MOD$IMAGE.txt"  
+    ENERGY_FILE="result/energy/$IMAGE/$MOD$IMAGE.txt"  
 
     for (( i = 1; i <= 10; i++ )); do
       # Launch cpu-energy-meter in background and save her PID
-      cpu-energy-meter -r >> $ENERGY_FILE &
+      cpu-energy-meter -r >> "$ENERGY_FILE" &
       METER_PID=$!
       wsk action invoke imgrec -r \
         --param resnet "$MOD" \
