@@ -1,5 +1,4 @@
 
-
 #!/bin/bash
 
 if [ "$#" -ne 4 ]; then
@@ -15,7 +14,6 @@ UPDATE=$2
 PREWARM=$3
 RUN=$4
 
-
 # docker pull  $IMAGE
 if [ "$UPDATE" == "1" ]; then
   ./S2.sh $IPV4 1 0 0 
@@ -30,7 +28,6 @@ if [ "$PREWARM" == "1" ]; then
     --param text "1Ko.txt" \
     --param schema "S4"
 fi
-
 
 if [ "$RUN" == "1" ]; then
 

@@ -1,54 +1,57 @@
 
 #!/bin/bash
 
-if [ "$#" -ne 1 ]; then
+if [ "$#" -ne 4 ]; then
   echo "Usage: $0 <ipv4>"
   echo "ipv4 : ipv4 for swift connection"
   exit 1
 fi
 
+
 IPV4=$1
-TEXT=$2
+UPDATE=$2
+PREWARM=$3
+RUN=$4
 
-
-if [ "$PREWARM" == "1" ]; then
-
+if [ "$UPDATE" == "1" ]; then
 ./S3.sh $IPV4 1 0 0 
 wsk action update validation  validation/__main__.py
 wsk action update S5 --sequence validation,coord,censor
-
 fi
 
-
-if [ "$RUN" == "1" ]; then
-wsk action invoke S5  -r --param ipv4 $IPV4 --param text "1Ko.txt" --param schema "S5"
+if [ "$PREWARM" == "1" ]; then
+  wsk action invoke S4 -r \
+    --param ipv4 $IPV4 \
+    --param text "1Ko.txt" \
+    --param schema "S4"
 fi
-
  
-echo -e "--->Experiment begin"
-mkdir -p "result/energy/S5/" 
+if [ "$RUN" == "1" ]; then
 
-TEXTES=("1Ko.txt" "5Ko.txt" "12Ko.txt" )
+  mkdir -p "result/energy/S5/" 
 
-for TEXT in "${TEXTES[@]}"; do
+  TEXTES=("1Ko.txt" "5Ko.txt" "12Ko.txt" )
 
-  echo -e "$TEXT" 
-  for (( i = 1; i <= 2; i++ )); do
-    # Launch cpu-energy-meter in background and save her PID
-    cpu-energy-meter -r >> "result/energy/S5/$TEXT" &
-    METER_PID=$!
+  for TEXT in "${TEXTES[@]}"; do
 
-    wsk action invoke S5 -r \
-      --param ipv4 "$IPV4" \
-      --param schema "S5" \
-      --param text "$TEXT" >> "result/result.txt"
-    kill -SIGINT $METER_PID
+    echo -e "$TEXT" 
+    for (( i = 1; i <= 2; i++ )); do
+      # Launch cpu-energy-meter in background and save her PID
+      cpu-energy-meter -r >> "result/energy/S5/$TEXT" &
+      METER_PID=$!
 
-    echo -e "$i"
+      wsk action invoke S5 -r \
+        --param ipv4 "$IPV4" \
+        --param schema "S5" \
+        --param text "$TEXT" >> "result/result.txt"
+      kill -SIGINT $METER_PID
 
-    sleep 6
-    
+      echo -e "$i"
+
+      sleep 6
+      
+    done
+
   done
-
-done
-    
+      
+fi
