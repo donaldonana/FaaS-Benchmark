@@ -12,7 +12,6 @@ def push(chunkdir, ipv4):
     auth_url = f'http://{ipv4}:8080/auth/v1.0'
     username = 'test:tester'
     password = 'testing'
-
 	# Connect to Swift
     conn = swiftclient.Connection(
     	authurl=auth_url,
@@ -23,7 +22,7 @@ def push(chunkdir, ipv4):
     container = 'whiskcontainer'
     with open(chunkdir + ".mp4", 'rb') as f:
         conn.put_object(container, chunkdir + ".mp4", contents=f.read())
- 
+
     return ("Ok")
 
 
@@ -50,11 +49,8 @@ def pull(chunkdir, ipv4):
         f.write(obj[1])
 
 	# unzip the chunk
-    args = [
-        chunkdir,
-		"-d",
-        "./"  
-    ]
+    args = [chunkdir, "-d", "./"]
+
     subprocess.run(
         ["unzip"] + args,
         stdin=subprocess.DEVNULL,
@@ -100,13 +96,11 @@ def encode(chunkdir, duration):
 def main(args):
 
     times = args.get("times")
-
     duration = times["duration"]
 
     ipv4 = args.get("ipv4", "192.168.1.120")
-    
     chunkdir = args.get("chunkdir", "chunkdir")
-    
+
     pull_begin = datetime.datetime.now()
     pull(chunkdir, ipv4)
     pull_end = datetime.datetime.now()
@@ -128,11 +122,11 @@ def main(args):
         "push" : push_time,
         "process" : (process_end - process_begin) / datetime.timedelta(seconds=1),
         "pull" : (pull_end - pull_begin) / datetime.timedelta(seconds=1),
-        "size" : os.path.getsize(chunkdir+".mp4"),
-        # "response" : str(response)
+        "response" : str(response)
     }
     
     return  times
 
 
 # ffmpeg -y -framerate 10 -i frame_%004d.webp -c:v libx264 -t 3 -pix_fmt yuv420p output.mp4
+# "size" : os.path.getsize(chunkdir+".mp4"),

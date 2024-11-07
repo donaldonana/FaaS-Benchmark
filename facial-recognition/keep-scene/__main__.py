@@ -130,7 +130,6 @@ def main(args):
     push(chunkdir, ipv4)
     push_end = datetime.datetime.now()
 
-
     times = args.get("times")
 
     times["keep"] = {

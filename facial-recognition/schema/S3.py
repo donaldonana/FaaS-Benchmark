@@ -23,7 +23,7 @@ video    = sys.argv[5]
 expe     = sys.argv[6]
 
 # update the action
-os.system("wsk action update S5  --sequence decode,scenechange,facerec,keep > /dev/null")
+os.system("wsk action update S5  --sequence decode,scenechange,facerec,keep,encode > /dev/null")
 
 processes = []
 
