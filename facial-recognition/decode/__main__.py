@@ -18,7 +18,6 @@ def pull(video, ipv4):
     	key=password,
     	auth_version='1'
 	)
-
     container = 'whiskcontainer'
     
     obj_tuple = conn.get_object(container, video)
@@ -51,7 +50,6 @@ def push(chunkdir, ipv4):
     	key=password,
     	auth_version='1'
 	)
-
     container = 'whiskcontainer'
 
     with open(chunkdir + ".zip", 'rb') as f:
@@ -106,20 +104,16 @@ def main(args):
     push_end = datetime.datetime.now()
 
     times = {
-
         "decode" : {
             "push" : (push_end - push_begin) / datetime.timedelta(seconds=1),
             "process" : (process_end - process_begin) / datetime.timedelta(seconds=1),
 
         },
-
         "duration" :  duration,
-
         "schema" : schema,
         "video" : video,
         "expe" : args.get("expe", 0),
         "chunkdir": chunkdir    
-
     }
 	
     return {
