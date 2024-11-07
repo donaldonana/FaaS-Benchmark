@@ -16,41 +16,46 @@ PREWARM=$3
 RUN=$4
 
 
-./S2.sh $IPV4 0 0 0 
-wsk action update validation  validation/__main__.py  
-wsk action update S4 --sequence validation,demo/text2speech,demo/conversion
- 
+# docker pull  $IMAGE
+if [ "$UPDATE" == "1" ]; then
+  ./S2.sh $IPV4 1 0 0 
+  wsk action update validation  validation/__main__.py  
+  wsk action update S4 --sequence validation,demo/text2speech,demo/conversion
+fi
 
-prewarm() {
-  wsk action invoke S4  -r --param ipv4 $IPV4
-}
 
-echo -e "--->Pull Docker image begin"
-pull
-echo -e "--->Prewarm Docker image begin"
-prewarm
+if [ "$PREWARM" == "1" ]; then
+  wsk action invoke S4 -r \
+    --param ipv4 $IPV4 \
+    --param text "1Ko.txt" \
+    --param schema "S4"
+fi
 
-echo  -e "--->Experiment begin"
-mkdir -p "result/energy/S4/" 
 
-TEXTES=("1Ko.txt" "5Ko.txt" "12Ko.txt" )
+if [ "$RUN" == "1" ]; then
 
-for TEXT in "${TEXTES[@]}"; do
+  mkdir -p "result/energy/S4/" 
 
-  echo -e "$TEXT" 
-  for (( i = 1; i <= 2; i++ )); do
-    # Launch cpu-energy-meter in background and save her PID
-    cpu-energy-meter -r >> "result/energy/S4/$TEXT" &
-    METER_PID=$!
-    wsk action invoke S4 -r \
-      --param ipv4 "$IPV4" \
-      --param schema "S4" \
-      --param text "$TEXT" >> "result/result.txt" 
-    kill -SIGINT $METER_PID
-    echo -e "$i"
-		
-	sleep 6
-	done
+  TEXTES=("1Ko.txt" "5Ko.txt" "12Ko.txt")
 
-done
+  for TEXT in "${TEXTES[@]}"; do
+
+    echo -e "$TEXT" 
+    for (( i = 1; i <= 2; i++ )); do
+      # Launch cpu-energy-meter in background and save her PID
+      cpu-energy-meter -r >> "result/energy/S4/$TEXT" &
+      METER_PID=$!
+      wsk action invoke S4 -r \
+        --param ipv4 "$IPV4" \
+        --param schema "S4" \
+        --param text "$TEXT" >> "result/result.txt" 
+      kill -SIGINT $METER_PID
+      echo -e "$i"
+      
+    sleep 6
+    done
+
+  done
+
+fi
     

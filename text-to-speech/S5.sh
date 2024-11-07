@@ -10,34 +10,21 @@ fi
 IPV4=$1
 TEXT=$2
 
-pull() {
 
-  docker pull onanad/action-python-v3.9:censor
-  docker pull onanad/action-python-v3.9:text2speech
-  docker pull onanad/action-python-v3.9:conversion
-  docker pull onanad/action-python-v3.9:profanity
+if [ "$PREWARM" == "1" ]; then
 
-  wsk action update guest/demo/conversion  --docker  onanad/action-python-v3.9:conversion conversion/__main__.py  --web true
-  wsk action update guest/demo/text2speech --docker  onanad/action-python-v3.9:text2speech speech/__main__.py     --web true
-  wsk action update guest/demo/profanity   --docker  onanad/action-python-v3.9:profanity profanity/__main__.py    --web true
-  wsk action update guest/demo/S2  --sequence demo/text2speech,demo/conversion  --web true 
-  wsk action update coord coordinator/__main__.py
+./S3.sh $IPV4 1 0 0 
+wsk action update validation  validation/__main__.py
+wsk action update S5 --sequence validation,coord,censor
 
-  wsk action update censor --docker onanad/action-python-v3.9:censor   censor/__main__.py 
-  wsk action update validation  validation/__main__.py  
+fi
 
-  wsk action update S5 --sequence validation,coord,censor
-}
 
-prewarm() {
-  wsk action invoke S5  -r --param ipv4 $IPV4 --param text "1Ko.txt" --param schema "S5"
-}
+if [ "$RUN" == "1" ]; then
+wsk action invoke S5  -r --param ipv4 $IPV4 --param text "1Ko.txt" --param schema "S5"
+fi
 
-echo -e "--->Pull Docker image begin"
-pull
-echo -e "--->Prewarm Docker image begin"
-prewarm
-
+ 
 echo -e "--->Experiment begin"
 mkdir -p "result/energy/S5/" 
 

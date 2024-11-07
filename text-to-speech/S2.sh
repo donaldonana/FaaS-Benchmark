@@ -17,7 +17,7 @@ IMAGE="onanad/action-python-v3.9:conversion"
 
 # docker pull  $IMAGE
 if [ "$UPDATE" == "1" ]; then
-  ./S1.sh $IPV4 0 0 0 
+  ./S1.sh $IPV4 1 0 0 
   docker pull onanad/action-python-v3.9:conversion
   wsk action update guest/demo/conversion  --docker $IMAGE  conversion/__main__.py  --web true
   wsk action update guest/demo/S2  --sequence demo/text2speech,demo/conversion  --web true

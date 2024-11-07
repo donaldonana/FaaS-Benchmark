@@ -20,7 +20,7 @@ IMAGE2="onanad/action-python-v3.9:censor"
 
 # docker pull  $IMAGE
 if [ "$UPDATE" == "1" ]; then
-  ./S2.sh $IPV4 0 0 0 
+  ./S2.sh $IPV4 1 0 0 
   docker pull onanad/action-python-v3.9:profanity
   docker pull onanad/action-python-v3.9:censor
   wsk action update guest/demo/profanity  --docker $IMAGE1 profanity/__main__.py --web true
