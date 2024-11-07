@@ -1,5 +1,6 @@
 import sys
 import subprocess
+import os
 
 
 if len(sys.argv) != 7:
@@ -18,6 +19,8 @@ schema   = sys.argv[4]
 video    = sys.argv[5]
 expe     = sys.argv[6]
 
+# update the action
+os.system("wsk action update S1 --sequence decode,scenechange,facerec,draw,encode > /dev/null")
  
 processes = []
 chunk_duration = duration // process

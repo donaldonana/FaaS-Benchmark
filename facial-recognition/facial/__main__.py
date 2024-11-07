@@ -9,7 +9,6 @@ import swiftclient
 def pull(chunkdir, ipv4):
 
 	chunkdir = chunkdir + ".zip"
-
     # Swift identifiant
 	auth_url = f'http://{ipv4}:8080/auth/v1.0'
 	username = 'test:tester'
@@ -34,7 +33,6 @@ def pull(chunkdir, ipv4):
 		"-d",
         "./"  
     ]
-
 	subprocess.run(
         ["unzip"] + args,
         stdin=subprocess.DEVNULL,

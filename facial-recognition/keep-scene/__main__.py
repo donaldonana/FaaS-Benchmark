@@ -10,7 +10,6 @@ import swiftclient
 
 def push(chunkdir, ipv4):
 
-     
     os.remove(chunkdir + ".zip")
     args = [
         chunkdir + ".zip", 
@@ -99,7 +98,6 @@ def keep(ref, chunkdir):
 
     else:
         files  = ref["scenes"].keys()
-
         for file in files:
             path = os.path.join(chunkdir, file)
             newpath = os.path.join("newchunkdir", file)

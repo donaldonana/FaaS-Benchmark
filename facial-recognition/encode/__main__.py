@@ -20,9 +20,7 @@ def push(chunkdir, ipv4):
     	key=password,
     	auth_version='1'
 	)
-
     container = 'whiskcontainer'
- 
     with open(chunkdir + ".mp4", 'rb') as f:
         conn.put_object(container, chunkdir + ".mp4", contents=f.read())
  
@@ -32,7 +30,6 @@ def push(chunkdir, ipv4):
 def pull(chunkdir, ipv4):
 
     chunkdir = chunkdir + ".zip"
-
     # Swift identifiant
     auth_url = f'http://{ipv4}:8080/auth/v1.0'
     username = 'test:tester'
