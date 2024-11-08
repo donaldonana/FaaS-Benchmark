@@ -8,11 +8,9 @@ SCHEMA = "S1"
 VIDEO = "daenerys.mp4"
 DURATION = 35
 PROCESS = 10
-RESULT_FILE = "result/result.txt"
-ENERGY_DIR = f"result/energy/{SCHEMA}"
-ENERGY_FILE = f"{ENERGY_DIR}/{VIDEO}.txt"
+ENERGY_FILE = f"result/energy/{VIDEO}.txt"
 
-os.makedirs(ENERGY_DIR, exist_ok=True)
+os.makedirs(f"result/energy/{SCHEMA}", exist_ok=True)
  
 for i in range(1, 2):
     energy_process = subprocess.Popen(["cpu-energy-meter", "-r"], stdout=open(ENERGY_FILE, 'a'))
@@ -24,7 +22,7 @@ for i in range(1, 2):
         SCHEMA, 
         VIDEO, 
         str(i)], 
-        stdout=open(RESULT_FILE, 'a'))
+        stdout=open("result/result.txt", 'a'))
 
     finally:
         whiskprocess.wait()
