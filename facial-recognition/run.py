@@ -15,9 +15,9 @@ os.makedirs(f"result/energy/{SCHEMA}", exist_ok=True)
 for i in range(1, 2):
 
     energy_process = subprocess.Popen(["cpu-energy-meter", "-r"], stdout=open(ENERGY_FILE, 'a'))
-    
+
     whiskprocess = subprocess.Popen(["python3", 
-        f"schema/{SCHEMA}.py", 
+        f"{SCHEMA}.py", 
         IPV4, str(PROCESS), 
         str(DURATION), 
         SCHEMA, 
