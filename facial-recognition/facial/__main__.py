@@ -28,11 +28,7 @@ def pull(chunkdir, ipv4):
 		f.write(obj[1])
 
 	# unzip the chunk
-	args = [
-        chunkdir,
-		"-d",
-        "./"  
-    ]
+	args = [chunkdir,"-d","./" ]
 	subprocess.run(
         ["unzip"] + args,
         stdin=subprocess.DEVNULL,
@@ -45,7 +41,7 @@ def pull(chunkdir, ipv4):
 def matchFace(imgref):
 	# Match face list
 	known_face_encodings = []
-	# load the reference image from S3
+	# load the reference image  
 	image = face_recognition.load_image_file(imgref)
 	# encode all face in ref. imagethere is normally only one
 	known_face_encodings.append(face_recognition.face_encodings(image).pop(0))
@@ -85,17 +81,14 @@ def facialRec(scenes, chunkdir, known_face_encodings):
 
 	return result
 		
-     
 
 def main(args):
 
     # amazone key         
 	ipv4 = args.get("ipv4", "192.168.1.120")
-
 	chunkdir = args.get("chunkdir", "chunkdir")
 
 	imgref = os.path.join("/app", 'queen.png')  #toparam
-
 	ref = args.get("ref")
 
 	pull_begin = datetime.datetime.now()

@@ -46,6 +46,7 @@ def pull(chunkdir, ipv4):
 
 
 def matchFace(imgref):
+
 	# Match face list
 	known_face_encodings = []
 	# load the reference image from S3
@@ -55,7 +56,6 @@ def matchFace(imgref):
 
 	return known_face_encodings
 
-  
 
 def facialRecPrime(scenes, chunkdir, known_face_encodings):
 
@@ -122,7 +122,6 @@ def main(args):
 	refimg = matchFace(imgref)
 	result = facialRecPrime(ref, chunkdir, refimg)
 	process_end = datetime.datetime.now()
-
 
 	ref = {"scene" : False, "scenes" : result}
 
