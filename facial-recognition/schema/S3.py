@@ -23,7 +23,7 @@ video    = sys.argv[5]
 expe     = sys.argv[6]
 
 # update the action
-os.system("wsk action update S5  --sequence decode,scenechange,facerec,keep,encode > /dev/null")
+os.system("wsk action update S3  --sequence decode,scenechange,facerec,keep,encode > /dev/null")
 
 processes = []
 
@@ -35,7 +35,7 @@ for i in range(process):
 
     start_time = i * chunk_duration
     command = [
-        "wsk", "action", "invoke", "S5", "-r", "--blocking",
+        "wsk", "action", "invoke", "S3", "-r", "--blocking",
         "--param", "ipv4", ipv4,
         "--param", "start", str(start_time),
         "--param", "duration", str(chunk_duration),
