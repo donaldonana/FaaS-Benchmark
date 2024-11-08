@@ -4,7 +4,7 @@ import time
 import signal
 
 IPV4 = "172.20.10.2"
-SCHEMA = "S3"
+SCHEMA = "S6"
 VIDEO = "daenerys.mp4"
 DURATION = 32
 PROCESS = 10
