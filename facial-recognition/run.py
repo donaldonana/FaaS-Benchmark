@@ -16,8 +16,7 @@ for i in range(1, 2):
 
     energy_process = subprocess.Popen(["cpu-energy-meter", "-r"], stdout=open(ENERGY_FILE, 'a'))
 
-    whiskprocess = subprocess.Popen(["python3", 
-        f"{SCHEMA}.py", 
+    whiskprocess = subprocess.Popen(["python3", f"{SCHEMA}.py", 
         IPV4, str(PROCESS), 
         str(DURATION), 
         SCHEMA, 
