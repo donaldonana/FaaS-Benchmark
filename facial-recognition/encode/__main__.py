@@ -72,7 +72,7 @@ def encode(chunkdir, duration):
         result = chunkdir+".mp4" 
         chunkdir = chunkdir+"/frame_%004d.webp"
         args = [
-            "-framerate",  "6", 
+            "-framerate",  "8", 
             "-start_number", str(start_number), 
             "-i", chunkdir, 
             "-c:v",  "libx264",

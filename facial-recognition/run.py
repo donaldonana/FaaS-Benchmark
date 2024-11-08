@@ -4,9 +4,9 @@ import time
 import signal
 
 IPV4 = "172.20.10.2"
-SCHEMA = "S6"
+SCHEMA = "S1"
 VIDEO = "daenerys.mp4"
-DURATION = 32
+DURATION = 35
 PROCESS = 10
 RESULT_FILE = "result/result.txt"
 ENERGY_DIR = f"result/energy/{SCHEMA}"

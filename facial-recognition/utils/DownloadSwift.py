@@ -1,7 +1,7 @@
 import swiftclient
 
 # Authentication details
-auth_url = 'http://130.190.118.14:8080/auth/v1.0'
+auth_url = 'http://172.20.10.2:8080/auth/v1.0'
 username = 'test:tester'
 password = 'testing'
 
