@@ -42,9 +42,9 @@ if [ "$RUN" == "1" ]; then
   mkdir -p "result/energy/S1/" 
 
   for TEXT in "${TEXTES[@]}"; do
-    echo -e "$TEXT" 
-
-    for (( i = 1; i <= 2; i++ )); do
+    echo "$TEXT" 
+    echo -e "$TEXT" >> perfEnergy.txt
+    for (( i = 1; i <= 10 ; i++ )); do
       # Launch cpu-energy-meter in background and save her PID
       cpu-energy-meter -r >> "result/energy/S1/$TEXT" &
       METER_PID=$!
@@ -55,6 +55,8 @@ if [ "$RUN" == "1" ]; then
         --param text "$TEXT" >> "result/result.txt"
       kill -SIGINT $METER_PID
 
+      # perf stat -o result/perfEnergyS1.txt --append -e power/energy-pkg/ -e power/energy-cores/ wsk action invoke demo/text2speech -r --param ipv4 "$IPV4"   --param schema "S1" --param text "$TEXT" >> "result/perf.txt"
+
       echo -e "$i"
       sleep 6
       
@@ -63,3 +65,4 @@ if [ "$RUN" == "1" ]; then
   done
 
 fi
+
