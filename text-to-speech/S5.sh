@@ -20,10 +20,10 @@ wsk action update S5 --sequence validation,coord,censor
 fi
 
 if [ "$PREWARM" == "1" ]; then
-  wsk action invoke S4 -r \
+  wsk action invoke S5 -r \
     --param ipv4 $IPV4 \
     --param text "1Ko.txt" \
-    --param schema "S4"
+    --param schema "S5"
 fi
  
 if [ "$RUN" == "1" ]; then
