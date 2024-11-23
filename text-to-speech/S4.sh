@@ -7,8 +7,6 @@ if [ "$#" -ne 4 ]; then
   exit 1
 fi
 
-# wsk package update demo
-
 IPV4=$1
 UPDATE=$2
 PREWARM=$3
@@ -21,7 +19,6 @@ if [ "$UPDATE" == "1" ]; then
   wsk action update S4 --sequence validation,demo/text2speech,demo/conversion
 fi
 
-
 if [ "$PREWARM" == "1" ]; then
   wsk action invoke S4 -r \
     --param ipv4 $IPV4 \
@@ -31,15 +28,15 @@ fi
 
 if [ "$RUN" == "1" ]; then
 
-  mkdir -p "result/energy/S4/" 
-
   TEXTES=("1Ko.txt" "5Ko.txt" "12Ko.txt")
+  mkdir -p "result/energy/S4/" 
 
   for TEXT in "${TEXTES[@]}"; do
 
     echo -e "$TEXT" 
+
     for (( i = 1; i <= 2; i++ )); do
-      # Launch cpu-energy-meter in background and save her PID
+
       cpu-energy-meter -r >> "result/energy/S4/$TEXT" &
       METER_PID=$!
       wsk action invoke S4 -r \
@@ -47,12 +44,10 @@ if [ "$RUN" == "1" ]; then
         --param schema "S4" \
         --param text "$TEXT" >> "result/result.txt" 
       kill -SIGINT $METER_PID
+
       echo -e "$i"
-      
-    sleep 6
+      sleep 6
     done
-
   done
-
 fi
     
