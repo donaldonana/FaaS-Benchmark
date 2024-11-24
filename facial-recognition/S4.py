@@ -26,14 +26,18 @@ expe     = sys.argv[6]
 os.system("wsk action update S4 --sequence decode,facerecprim,keep,encode > /dev/null")
 
 processes = []
-
-# Calculate chunk duration
 chunk_duration = duration // process
+num_processes = process
 
 # Loop to invoke the action multiple times in parallel
 for i in range(process):   
 
     start_time = i * chunk_duration
+
+    if i == (num_processes - 1) :
+        chunk_duration = chunk_duration + (duration%num_processes)
+        print(chunk_duration)
+
     command = [
         "wsk", "action", "invoke", "S4", "-r", "--blocking",
         "--param", "ipv4", ipv4,
