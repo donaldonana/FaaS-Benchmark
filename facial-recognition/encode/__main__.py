@@ -122,7 +122,7 @@ def main(args):
         "push" : push_time,
         "process" : (process_end - process_begin) / datetime.timedelta(seconds=1),
         "pull" : (pull_end - pull_begin) / datetime.timedelta(seconds=1),
-        "response" : str(response)
+        # "response" : str(response)
     }
     
     return  times

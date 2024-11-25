@@ -8,8 +8,8 @@ SCHEMA = "S1"
 PROCESS = 10
 DURATION = 35
 VIDEO = "daenerys.mp4"
-ENERGY_FILE = f"result/energy/{VIDEO}.txt"
 os.makedirs(f"result/energy/{SCHEMA}", exist_ok=True)
+ENERGY_FILE = f"result/energy/{SCHEMA}/{VIDEO}.txt"
 
  
 for i in range(1, 2):
