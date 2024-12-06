@@ -42,9 +42,12 @@ if [ "$RUN" == "1" ]; then
   mkdir -p "result/energy/S1/" 
 
   for TEXT in "${TEXTES[@]}"; do
+
     echo "$TEXT" 
     echo -e "$TEXT" >> perfEnergy.txt
+
     for (( i = 1; i <= 10 ; i++ )); do
+    
       # Launch cpu-energy-meter in background and save her PID
       cpu-energy-meter -r >> "result/energy/S1/$TEXT" &
       METER_PID=$!
