@@ -15,7 +15,7 @@ Nous avons écrit un script bash pour exécuter automatiquement les expérimenta
 
 **image**: the name of the image file to resize. 
 
-*example*: ./run.sh 123.13.34.201 1 1 image.png
+*example*: ./run.sh 123.13.34.202 1 1 image.png
 
 ## Some results ? 
 
