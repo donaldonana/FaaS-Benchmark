@@ -1,12 +1,22 @@
-# Image Processing
+## Thumbnaille
 
-A simple pipeline performing basic image operations with Pillow.
+Le benchmark télécharge une image depuis le stockage distant, puis la passe en paramétre à une fonction qui la redimensionne à la taille d'une vignette. Upload ensuite la nouvelle version plus petite de l’image. Pour les expérimentations, nous avons sélectionné des images de tailles différentes  provenant du jeu de données image-net.
 
-[Inspired by AWS Lambda tutorial code.](https://docs.aws.amazon.com/lambda/latest/dg/with-s3-example-deployment-pkg.htm)
+## How ro run ? 
+Nous avons écrit un script bash pour exécuter automatiquement les expérimentation pour ce benchmark. Il s'exécute commme suit: 
 
-### Instructions
+./run.sh ipv4 run update image 
 
-1. Deploy Docker container with function code and input data.
+**ipv4**: l'afresse ipv4 de la machine haute 
 
-2. Example of JSON payload: `{ "dir": "input_data", "id": "1" }'`.
+**update**: un bolean. if the value is "1" the action was update, or create if does not exist
 
+**run**: un boleann. if the value is "1", the experiment will start, then the action will be invoke n consecutif time. 
+
+**image**: the name of the image file to resize. 
+
+*example*: ./run.sh 123.13.34.201 1 1 image.png
+
+## Some results ? 
+
+ 
