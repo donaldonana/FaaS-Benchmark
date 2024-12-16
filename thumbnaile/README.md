@@ -1,19 +1,19 @@
 ## Thumbnaille
 
-Le benchmark télécharge une image depuis le stockage distant, puis la passe en paramétre à une fonction qui la redimensionne à la taille d'une vignette. Upload ensuite la nouvelle version plus petite de l’image. Pour les expérimentations, nous avons sélectionné des images de tailles différentes  provenant du jeu de données image-net.
+This benchmark downloads an image from cloud storage, resizes it to a thumbnail size, and then uploads the new smaller version of the image. For the experiments, we selected images of different sizes from the image-net dataset mainly used in scientific research for image processing. 
 
 ## How ro run ? 
-Nous avons écrit un script bash pour exécuter automatiquement les expérimentation pour ce benchmark. Il s'exécute commme suit: 
+We wrote a bash script to automatically run the experiments for this benchmark. It runs as follows:
 
-./run.sh ipv4 run update image 
+./run.sh &lt;ipv4&gt; &lt;run&gt; &lt;update&gt; &lt;image&gt; 
 
-**ipv4**: l'afresse ipv4 de la machine haute 
+**ipv4**: l'afresse ipv4 de la machine host 
 
-**update**: un bolean. if the value is "1" the action was update, or create if does not exist
+**update**: un bolean. if the value is "1" the action will be update, or create if does not exist. 
 
-**run**: un boleann. if the value is "1", the experiment will start, then the action will be invoke n consecutif time. 
+**run**: un boleann. if the value is "1", the experiment will start, then the action will be invoke 100 consecutif time. 
 
-**image**: the name of the image file to resize. 
+**image**: the name of the image passed as a parameter. 
 
 *example*: ./run.sh 123.13.34.202 1 1 image.png
 
