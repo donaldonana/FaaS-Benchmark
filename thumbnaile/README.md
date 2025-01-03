@@ -7,7 +7,7 @@ We wrote a bash script to automatically run the experiments for this benchmark. 
 
 ./run.sh &lt;ipv4&gt; &lt;run&gt; &lt;update&gt; &lt;image&gt; 
 
-**ipv4**: l'afresse ipv4 de la machine host 
+**ipv4**: l'adresse ipv4 de la machine host 
 
 **update**: un bolean. if the value is "1" the action will be update, or create if does not exist. 
 
