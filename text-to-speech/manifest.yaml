@@ -33,7 +33,6 @@ packages:
             S4: 
                 actions: demo/validation, demo/text2speech, demo/conversion
                 web: true
-                
             S5: 
                 actions: demo/validation, demo/coord, demo/censor
                 web: true
