@@ -19,7 +19,6 @@ packages:
                     ipv4:
                         type: string
                         descrition: "local ipv4 device for swift connection"
-                runtime: python@3
                 docker: onanad/action-python-v3.9:thumb
                 
 
