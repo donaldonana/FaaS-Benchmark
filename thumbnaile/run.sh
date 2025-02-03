@@ -1,5 +1,7 @@
 #!/bin/bash
- 
+
+IMAGE="1Mb.JPEG"
+
 IPV4="172.20.20.77"
  
 LIBRARY=("pillow" "wand" "pygame" "opencv")
