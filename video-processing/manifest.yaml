@@ -1,0 +1,24 @@
+packages:
+    default:
+        actions:
+            thumb:
+                function: __main__.py
+                inputs:
+                    width:
+                        type: integer
+                        default: 58
+                        description: "The new image width"
+                    hight:
+                        type: integer
+                        default: 58
+                        description: "The new image hight"
+                    image:
+                        type: string
+                        default: "1Mb.JPEG"
+                        description: "Path to image to resize"
+                    ipv4:
+                        type: string
+                        descrition: "local ipv4 device for swift connection"
+                docker: onanad/action-python-v3.9:thumb
+                
+
