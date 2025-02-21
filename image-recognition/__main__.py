@@ -5,8 +5,6 @@ from torchvision.models import resnet50, resnet18, resnet152, resnet34 # type: i
 import datetime, json, os
 import swiftclient
 
-
-
 def recognition(event):
 
     # Swift identifiant
@@ -77,7 +75,6 @@ def recognition(event):
             'model_size' : model_size
             }
              
-        
 ResnetModel = {'resnet18':resnet18, 'resnet34':resnet34, 'resnet50':resnet50, 'resnet152':resnet152}
     
 def main(args):
