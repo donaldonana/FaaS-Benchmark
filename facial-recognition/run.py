@@ -1,34 +1,52 @@
+import signal
 import os
 import subprocess
 import time
-import signal
 
-IPV4 = "172.20.10.2"
-SCHEMA = "S1"
-PROCESS = 10
 DURATION = 35
+PROCESS  = 10
+SCHEMA   = "S1"
+IPV4  = "172.20.20.78"
 VIDEO = "daenerys.mp4"
-os.makedirs(f"result/energy/{SCHEMA}", exist_ok=True)
-ENERGY_FILE = f"result/energy/{SCHEMA}/{VIDEO}.txt"
+RESULT_FILE = "result/result.txt"
+ENERGY_DIR = f"result/energy/{SCHEMA}"
+ENERGY_FILE = f"{ENERGY_DIR}/{VIDEO}.txt"
 
- 
+processes = []
+num_processes = PROCESS
+chunk_duration = DURATION // PROCESS
+
+os.makedirs(ENERGY_DIR, exist_ok=True)
+
 for i in range(1, 2):
+    
+    # cpu-energy-meter in the background.
+    energy_process = subprocess.Popen(["cpu-energy-meter", "-r"], stdout=open(ENERGY_FILE, 'a')) 
 
-    energy_process = subprocess.Popen(["cpu-energy-meter", "-r"], stdout=open(ENERGY_FILE, 'a'))
+	# For each expe. we launch each process with part of a video as parameter. 
+    for i in range(PROCESS):
+        start_time = i * chunk_duration
 
-    whiskprocess = subprocess.Popen(["python3", f"{SCHEMA}.py", 
-        IPV4, str(PROCESS), 
-        str(DURATION), 
-        SCHEMA, 
-        VIDEO, 
-        str(i)], 
-        stdout=open("result/result.txt", 'a')
-    )
+        if i == (num_processes - 1) :
+            chunk_duration = chunk_duration + (DURATION%num_processes)
 
-    whiskprocess.wait()
-    os.kill(energy_process.pid, signal.SIGINT)
+        command = [
+        "wsk", "action", "invoke", "S1", "-r", "--blocking",
+        "--param", "ipv4", IPV4,
+        "--param", "start", str(start_time),
+        "--param", "duration", str(chunk_duration),
+        "--param", "schema", SCHEMA,
+        "--param", "video", VIDEO,
+        "--param", "chunkdir", f"chunk.{i}",
+        "--param", "expe", str(i)
+    	]
+        
+        process = subprocess.Popen(command, stdout=open(RESULT_FILE, 'a')) # Run each command in the background.
+        processes.append(process)
 
-    print(f"{i}")
+    for process in processes:
+        process.wait()
+        os.kill(energy_process.pid, signal.SIGINT)
 
     time.sleep(3)
 

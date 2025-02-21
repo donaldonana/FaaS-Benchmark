@@ -1,24 +1,52 @@
 packages:
     default:
         actions:
-            thumb:
-                function: __main__.py
-                inputs:
-                    width:
-                        type: integer
-                        default: 58
-                        description: "The new image width"
-                    hight:
-                        type: integer
-                        default: 58
-                        description: "The new image hight"
-                    image:
-                        type: string
-                        default: "1Mb.JPEG"
-                        description: "Path to image to resize"
-                    ipv4:
-                        type: string
-                        descrition: "local ipv4 device for swift connection"
-                docker: onanad/action-python-v3.9:thumb
-                
-
+            decode:
+                function: decode/__main__.py
+                docker: onanad/action-python-v3.9:decode
+                limits:
+                    memorySize: 200
+            draw:
+                function: draw/__main__.py
+                docker: onanad/action-python-v3.9:draw
+                limits:
+                    memorySize: 128
+            encode:
+                function: encode/__main__.py
+                docker: onanad/action-python-v3.9:encode
+                limits:
+                    memorySize: 300
+            facerec:
+                function: facial/__main__.py
+                docker: onanad/action-python-v3.9:facerec
+                limits:
+                    memorySize: 300
+            facerecprim:
+                function: facial-prim/__main__.py
+                docker: onanad/action-python-v3.9:facerecprim
+                limits:
+                    memorySize: 300
+            keep:
+                function: keep-scene/__main__.py
+                docker: onanad/action-python-v3.9:keep
+                web: true
+                limits:
+                    memorySize: 200
+            scenechange:
+                function: scene-change/__main__.py
+                docker: onanad/action-python-v3.9:scenechange
+                limits:
+                    memorySize: 200
+        sequences:
+            S1: 
+                actions: decode, scenechange, facerec, draw, encode
+            S2: 
+                actions: decode, facerecprim, draw, encode
+            S3: 
+                actions: decode, scenechange, facerec, keep, encode
+            S4: 
+                actions: decode, facerecprim, keep, encode
+            S5: 
+                actions: decode, scenechange, facerec, keep, draw, encode
+            S6: 
+                actions: decode, facerecprim, keep, draw, encode
