@@ -116,15 +116,14 @@ def processing(args):
 
 biblio = {'moviepy' : video_to_gif_moviepy, 'ffmpeg' : video_to_gif_ffmpeg, 'imageio' : video_to_gif_imageio, 'opencv' : video_to_gif_opencv}
 
+
 def main(args):
 
     # Apply Resize Operation 
     result = processing({
-
         "file"  : args.get("file", '1Mb.avi'),
         "bib"   : args.get("bib", "ffmpeg"),
         "ipv4": args.get("ipv4", "192.168.1.120")
-
     })
 
     return result
