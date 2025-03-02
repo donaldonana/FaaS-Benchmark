@@ -5,7 +5,7 @@ import cv2
 import pygame
 
 
-def opencv_resize(path, w, h):
+def opencv_resize(path, w, h): 
     # Load the image
     img = cv2.imread(path)
     # resize image by specifying custom width and height
