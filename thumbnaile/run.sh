@@ -11,7 +11,7 @@ for LIB in "${LIBRARY[@]}"; do
   echo -e "$LIB"
   ENERGY_FILE="result/energy//energy/$IMAGE/$LIB$IMAGE.txt"  
 
-  for (( i = 1; i <= 10; i++ )); do
+  for (( i = 1; i <= 100; i++ )); do
  
     # Launch cpu-energy-meter in background and save its PID
     cpu-energy-meter -r >> "$ENERGY_FILE" &

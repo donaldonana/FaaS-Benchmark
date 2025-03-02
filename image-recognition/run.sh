@@ -26,20 +26,20 @@ wsk action invoke imgrec --result  --param ipv4 "$IPV4"  --param image 1Mb.JPEG 
 if [ "$RUN" == "1" ]; then
 
   MODEL=("resnet18" "resnet34" "resnet50" "resnet152")
-  mkdir -p "result/energy/$IMAGE" 
+  mkdir -p "result/energy/energy/$IMAGE" 
   
   for MOD in "${MODEL[@]}"; do
     echo -e "$MOD"  
-    ENERGY_FILE="result/energy/$IMAGE/$MOD$IMAGE.txt"  
+    ENERGY_FILE="result/energy/energy/$IMAGE/$MOD$IMAGE.txt"  
 
-    for (( i = 1; i <= 10; i++ )); do
+    for (( i = 1; i <= 100; i++ )); do
       # Launch cpu-energy-meter in background and save her PID
       cpu-energy-meter -r >> "$ENERGY_FILE" &
       METER_PID=$!
       wsk action invoke imgrec -r \
         --param resnet "$MOD" \
         --param ipv4   "$IPV4" \
-        --param image  "$IMAGE" >>  result/result.txt
+        --param image  "$IMAGE" >>  result/energy/result.txt
 
       kill -SIGINT $METER_PID
 
