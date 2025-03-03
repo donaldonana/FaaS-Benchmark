@@ -25,9 +25,11 @@ for IMAGE in "${IMAGES[@]}"; do
       kill -SIGINT "$METER_PID"
       echo -e "$i"
       sleep 4
+
     done
 
     sleep 4
+    
   done
 
 done
