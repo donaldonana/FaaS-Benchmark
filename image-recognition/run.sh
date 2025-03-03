@@ -1,54 +1,36 @@
 #!/bin/bash
 
-if [ "$#" -ne 4 ]; then
-  echo "Usage: $0 <ipv4> <image> <run>"
-  echo "ipv4 : ipv4 for swift connection"
-  echo "run  :  run"
-  echo "update :  update"
-  echo "image  :  image"
-  exit 1
-fi
+IPV4="172.20.20.77"
+MODEL=("resnet18" "resnet34" "resnet50" "resnet152")
+IMAGES=("100Kb.JPEG" "500b.JPEG" "1Mb.JPEG" "15Mb.JPEG" "256Kb.JPEG")
 
-IPV4=$1
-RUN=$2
-UPDATE=$3
-IMAGE=$4
+for IMAGE in "${IMAGES[@]}"; do
+  echo -e "$IMAGE"
+  mkdir -p "result/energy/$IMAGE" 
 
-if [ "$UPDATE" == "1" ]; then
-  docker pull onanad/action-python-v3.9:imgrec
-  wsk action update imgrec -m 1024 --docker onanad/action-python-v3.9:imgrec __main__.py  
-fi
-
-# Prewarm the container
-wsk action invoke imgrec --result  --param ipv4 "$IPV4"  --param image 1Mb.JPEG --param resnet resnet152
-
-# Run the experiment
-if [ "$RUN" == "1" ]; then
-
-  MODEL=("resnet18" "resnet34" "resnet50" "resnet152")
-  mkdir -p "result/energy/energy/$IMAGE" 
-  
   for MOD in "${MODEL[@]}"; do
-    echo -e "$MOD"  
-    ENERGY_FILE="result/energy/energy/$IMAGE/$MOD$IMAGE.txt"  
+    echo -e "$MOD"
+    ENERGY_FILE="result/energy/$IMAGE/$MOD$IMAGE.txt"  
 
     for (( i = 1; i <= 100; i++ )); do
-      # Launch cpu-energy-meter in background and save her PID
+      # Launch cpu-energy-meter in background and save its PID
       cpu-energy-meter -r >> "$ENERGY_FILE" &
       METER_PID=$!
+
       wsk action invoke imgrec -r \
-        --param resnet "$MOD" \
-        --param ipv4   "$IPV4" \
-        --param image  "$IMAGE" >>  result/energy/result.txt
+        --param image  "$IMAGE" \
+        --param ipv4 "$IPV4" \
+        --param resnet "$MOD" >> result/result.txt
 
-      kill -SIGINT $METER_PID
-
+      kill -SIGINT "$METER_PID"
       echo -e "$i"
-      
-      sleep 2
+      sleep 4
+
     done
 
+    sleep 4
+    
   done
 
-fi 
-
+done
+ 
