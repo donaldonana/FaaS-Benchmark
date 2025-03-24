@@ -20,7 +20,7 @@ for IMAGE in "${IMAGES[@]}"; do
       wsk action invoke thumb -r \
         --param bib  "$LIB" \
         --param ipv4 "$IPV4" \
-        --param file "$IMAGE" >> result/result.txt
+        --param file "$IMAGE" >> result/result.txt #test
 
       kill -SIGINT "$METER_PID"
       echo -e "$i"
