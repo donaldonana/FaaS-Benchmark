@@ -1,4 +1,3 @@
-result/
 resnet*.pth
 save.json
 *.csv
