@@ -3,7 +3,7 @@
 IPV4="172.20.20.80"
 
 LIBRARY=("pillow" "wand" "pygame" "opencv")
-IMAGES=("100Kb.JPEG" "500b.JPEG" "1Mb.JPEG" "15Mb.JPEG" "256Kb.JPEG")
+IMAGES=("500b.JPEG" "100Kb.JPEG"  "1Mb.JPEG" "15Mb.JPEG" "256Kb.JPEG")
 
 for IMAGE in "${IMAGES[@]}"; do
   echo -e "$IMAGE"

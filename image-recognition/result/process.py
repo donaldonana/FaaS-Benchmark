@@ -57,7 +57,6 @@ def metric_precess(output, headers) -> None:
     csv_save(output, headers, data)
     
  
-
 def process_cpu_energy_meter(output, headers, directory) -> None:
     """_summary_
 
@@ -88,7 +87,7 @@ def process_cpu_energy_meter(output, headers, directory) -> None:
                     item[key] = val
                 else:
                     if item:
-                        item["image"], item["library"] = image, library
+                        item["image"], item["model"] = image, model
                         data.append(item)
                         item = {}
                         
@@ -101,13 +100,15 @@ if __name__ == "__main__":
     
     # Define CSV headers for others data proc. 
     headers = [
-        "compute_time", 
-        "download_size", 
-        "download_time", 
+        "label", 
+        "prediction_time", 
+        "index", 
         "image", 
-        "library", 
-        "upload_size", 
-        "upload_time"
+        "model", 
+        "download_time", 
+        "model_size", 
+        "model_load_time", 
+        "prob"
     ]
     
     metric_precess("result.csv", headers)
@@ -119,7 +120,7 @@ if __name__ == "__main__":
         'cpu1_package_joules', 
         'cpu1_dram_joules', 
         'image', 
-        'library',
+        'model'
         'cpu_count'
     ]
     
