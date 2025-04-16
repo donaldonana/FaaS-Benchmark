@@ -1,11 +1,11 @@
 resnet*.pth
 save.json
-*.csv
+*.csv*
 *.pth
 *.json
 *.png
 *.PNG
-*.MP4
-*.avi
-*.mp4
-*.txt
+*.MP4*
+*.avi*
+*.mp4*
+*.txt*
