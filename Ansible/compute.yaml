@@ -1,0 +1,125 @@
+- name: Install required software on all nodes
+  hosts: compute
+  become: yes
+  vars:
+    ansible_env:
+      USER: "onana"
+  tasks:
+    - name: ensure dependencies
+      apt: 
+        name: 
+          - apt-utils
+          - software-properties-common  # Ensures add-apt-repository is available
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+          - cpufrequtils
+        state: present
+        update_cache: yes
+    
+    # Install nodejs and npm 
+    - name: Install Node.js
+      apt:
+        name: nodejs
+        state: present
+
+    - name: Install npm
+      apt:
+        name: npm
+        state: present
+        
+    # Install OpenJDK 
+    - name: Install OpenJDK 8
+      apt:
+        name: openjdk-8-jdk
+        state: present
+    
+    # Install Docker 
+    - name: Remove old Docker Desktop if exists
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "$HOME/.docker/desktop"
+        - "/usr/local/bin/com.docker.cli"
+    
+    - name: Purge Docker Desktop
+      apt:
+        name: docker-desktop
+        state: absent
+        
+    - name: Add Docker's official GPG key
+      shell: |
+        sudo mkdir -p /etc/apt/keyrings
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+      args:
+        creates: /etc/apt/keyrings/docker.gpg
+
+    - name: Add Docker repository
+      shell: |
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+      args:
+        creates: /etc/apt/sources.list.d/docker.list
+
+    - name: Update package list after adding Docker repository
+      apt:
+        update_cache: yes
+          
+    - name: Install Docker Engine
+      apt:
+        name:
+          - "docker-ce=5:20.10.13~3-0~ubuntu-jammy"
+          - "docker-ce-cli=5:20.10.13~3-0~ubuntu-jammy"
+          - containerd.io
+          - docker-compose-plugin
+        state: present
+
+    - name: Ensure Docker group exists
+      group:
+        name: docker
+        state: present
+
+    - name: Add users to Docker group
+      ansible.builtin.user:
+        name: "{{ ansible_env.USER }}"
+        groups: docker
+        append: yes
+
+    - name: Reset ssh connection to allow user changes to affect ansible user
+      ansible.builtin.meta:
+        reset_connection
+
+    - name: Restart Docker service
+      systemd:
+        name: docker
+        state: restarted
+        enabled: yes
+        
+    # Install OpenWhisk wskdeploy
+    - name: Download openwhisk wskdeploy package
+      get_url:
+        url: "https://github.com/apache/openwhisk-wskdeploy/releases/download/1.2.0/openwhisk_wskdeploy-1.2.0-linux-amd64.tgz"
+        dest: "/tmp/openwhisk_wskdeploy-1.2.0-linux-amd64.tgz"
+
+    - name: Extract openwhisk wskdeploy
+      unarchive:
+        src: "/tmp/openwhisk_wskdeploy-1.2.0-linux-amd64.tgz"
+        dest: "/tmp"
+        remote_src: yes
+    - name: Move wskdeploy to /usr/local/bin
+      shell: mv /tmp/wskdeploy /usr/local/bin/wskdeploy
+      
+    # Install OpenWhisk wsk
+    - name: Download openwhisk wsk package
+      get_url:
+        url: "https://github.com/apache/openwhisk-cli/releases/download/1.2.0/OpenWhisk_CLI-1.2.0-linux-amd64.tgz"
+        dest: "/tmp/OpenWhisk_CLI-1.2.0-linux-amd64.tgz"
+
+    - name: Extract openwhisk wsk
+      unarchive:
+        src: "/tmp/OpenWhisk_CLI-1.2.0-linux-amd64.tgz"
+        dest: "/tmp"
+        remote_src: yes
+    - name: Move wsk to /usr/local/bin
+      shell: mv /tmp/wsk /usr/local/bin/wsk

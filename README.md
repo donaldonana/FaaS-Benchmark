@@ -1,13 +1,33 @@
 ## GreenFaaS
 
-The objective is to propose a FaaS (Function-as-a-Service) architecture that executes functions while consuming the least amount of energy possible, all while maintaining the expected quality of results for the user. To achieve this, we propose **GreenFaaS**, a solution in which a client can register multiple alternative implementations for a given function intended to perform a task. These alternatives may differ in terms of the algorithm used or the resources allocated for execution. Each implementation will complete the requested task but may produce results of varying quality while consuming different amounts of energy. The service provider, based on its energy budget and taking into account the user’s expectations, will determine and propose the alternative that consumes the least energy while producing a result of acceptable quality for the user.
+To support the proposed idea, we begin by outlining the motivation behind the project. We implement alternatives to a state-of-the-art benchmark, deploying them on Apache OpenWhisk. During execution, we monitor energy consumption, execution time, and result quality for each alternative.
 
-To solidify the proposed idea, we will first develop the project's motivation by creating alternative implementations of a state-of-the-art benchmark. These alternatives will then be implemented and executed on Apache OpenWhisk, an open-source platform for cloud-based function deployment, while monitoring energy consumption, execution time, and the quality of results for each alternative.
+## How to Run the Experiment
 
-## How to Run experiment ? 
+1. **Set Up the Configuration**  
+      **a.** We use Ansible to automatically configure the runtime environment. To begin, you need to install Ansible:
 
-1. Install and configure openwhisk
-2. Install and configure OpenstackSwift
-3. Run every benchmark experiment by follow the lead in each benchmark folder. 
+   ```shell
+   python3 -m pip -V venv
+   source ./venv/bin/activate
+   python3 -m pip install ansible
+   ```
 
-## Some results
+      **b.** We then need to modify the ansible inventories **nodes.yaml** which contain all the  **IP address** or fully **qualified domain name (FQDN)** of each host node in runtime environment. Modify the **ansible_host** key and that file, and write the correct IP for each compute and storage node. 
+
+      **c.** Set up all  compute node. The following command, use the ansible playbook **compute.yaml**  to install openwhisk, and set the device core frequency in the max frequence. 
+
+   ```bash
+   ansible-playbook -i node.yaml compute.yaml
+   ```
+
+      **d.** Set up all storage node. The following command, use the ansible playbook **SAIO.yaml**  to install and configure SAIO. 
+
+   ```bash
+   ansible-playbook -i node.yaml SAIO.yaml
+   ```
+
+2. **Get the data**  
+
+
+3. **Run each benchmark**  

@@ -1,11 +1,11 @@
 #!/bin/bash
 
 IPV4="172.20.20.78"
-VIDEOS=("1Mb.avi" "6Mb.avi" "36Kb.avi")
+VIDEOS=("1Mb.avi" "6Mb.avi" "36Kb.avi" "540Kb.avi")
 LIBRARY=("moviepy" "ffmpeg" "imageio" "opencv")
  
 for VIDEO in "${VIDEOS[@]}"; do
-  echo -e "$VIDEO"
+  echo  -e "$VIDEO"
   mkdir -p "result/energy/$VIDEO" 
 
   for LIB in "${LIBRARY[@]}"; do
@@ -13,7 +13,7 @@ for VIDEO in "${VIDEOS[@]}"; do
     ENERGY_FILE="result/energy/$VIDEO/$LIB$VIDEO.txt"  
 
     for (( i = 1; i <= 100; i++ )); do
-      # Launch cpu-energy-meter in background and save its PID
+
       cpu-energy-meter -r >> "$ENERGY_FILE" &
       METER_PID=$!
 
@@ -27,6 +27,8 @@ for VIDEO in "${VIDEOS[@]}"; do
       sleep 2
         
     done
+
+    sleep 2
 
   done
 
