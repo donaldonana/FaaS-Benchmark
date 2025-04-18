@@ -14,6 +14,10 @@ To support the proposed idea, we begin by outlining the motivation behind the pr
    ```
 
       **b.** We then need to modify the ansible inventories **nodes.yaml** which contain all the  **IP address** or fully **qualified domain name (FQDN)** of each host node in runtime environment. Modify the **ansible_host** key and that file, and write the correct IP for each compute and storage node. 
+ 
+   ```bash
+   ansible compute storage -m ping -i node.yaml
+   ```
 
       **c.** Set up all  compute node. The following command, use the ansible playbook **compute.yaml**  to install openwhisk, and set the device core frequency in the max frequence. 
 
@@ -27,7 +31,8 @@ To support the proposed idea, we begin by outlining the motivation behind the pr
    ansible-playbook -i node.yaml SAIO.yaml
    ```
 
-2. **Get the data**  
+ 
 
+2. **Run each benchmark**  
 
-3. **Run each benchmark**  
+   ....

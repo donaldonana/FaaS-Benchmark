@@ -1,5 +1,5 @@
 - name: Setup Swift Disk on Compute Nodes
-  hosts: compute
+  hosts: storage
   become: yes
   vars:
     ansible_env:
@@ -333,7 +333,7 @@
       args:
         executable: /bin/bash     
 
-    - name:  remake rings and start main
+    - name:  remake rings and start main swift services
       become: false
       shell: |
         ~/bin/remakerings

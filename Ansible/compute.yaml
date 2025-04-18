@@ -123,3 +123,11 @@
         remote_src: yes
     - name: Move wsk to /usr/local/bin
       shell: mv /tmp/wsk /usr/local/bin/wsk
+
+ 
+    - name: Fix CPU frequncy
+      replace:
+        path: "/etc/default/grub"
+        regexp: 'GRUB_CMDLINE_LINUX_DEFAULT=""'
+        replace: 'GRUB_CMDLINE_LINUX_DEFAULT="processor.ignore_ppc=1 intel_idle.max_cstate=0 idle=poll"'
+       

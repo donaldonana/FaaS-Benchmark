@@ -1,0 +1,13 @@
+compute:
+  hosts:
+    node0:
+      ansible_host: clnode119.clemson.cloudlab.us
+  vars:
+    ansible_user: onana
+
+storage:
+  hosts:
+    node0:
+      ansible_host: clnode119.clemson.cloudlab.us
+  vars:
+    ansible_user: onana
