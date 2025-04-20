@@ -145,7 +145,7 @@
           mkdir -p /var/cache/swift /var/cache/swift2 /var/cache/swift3 /var/cache/swift4
           chown {{ ansible_user }}:{{ ansible_user }} /var/cache/swift*
           mkdir -p /var/run/swift
-          chown {{ ansible_user }}:{{ ansible_user }} /var/run/swift
+          chown -R {{ ansible_user }}:{{ ansible_user }} /var/run/swift
           exit 0
         mode: 'a+x'
 
@@ -276,6 +276,13 @@
         path: "{{ item.path }}"
         regexp: "<your-user-name>"
         replace: "{{ ansible_env.USER }}"
+      loop: "{{ conf_files.files }}"
+
+    - name: Replace <your-user-name> with the current user
+      replace:
+        path: "{{ item.path }}"
+        regexp: "127.0.0.1"
+        replace: "0.0.0.0"
       loop: "{{ conf_files.files }}"
       
     - name: Ensure ~/bin directory exists

@@ -15,6 +15,8 @@
           - gnupg
           - lsb-release
           - cpufrequtils
+          - linux-tools-common
+          - linux-tools-{{ ansible_kernel }}
         state: present
         update_cache: yes
     
@@ -95,7 +97,17 @@
         name: docker
         state: restarted
         enabled: yes
-        
+
+    # Get cpu energy meter
+    - name: Get cpu energy meter
+      get_url:
+        url: "https://github.com/sosy-lab/cpu-energy-meter/releases/download/1.2/cpu-energy-meter_1.2-1_amd64.deb"
+        dest: "/tmp/cpu-energy-meter_1.2-1_amd64.deb"
+
+    # Install cpu energy meter
+    - name: Install cpu energy meter
+      shell: apt install ./tmp/cpu-energy-meter*.deb
+
     # Install OpenWhisk wskdeploy
     - name: Download openwhisk wskdeploy package
       get_url:
@@ -130,6 +142,15 @@
         regexp: 'GRUB_CMDLINE_LINUX_DEFAULT=""'
         replace: 'GRUB_CMDLINE_LINUX_DEFAULT="processor.ignore_ppc=1 intel_idle.max_cstate=0 idle=poll"'
 
+    - name:  update the grub
+      shell: sudo update-grub
+
+    - name:  governor to user space
+      shell: cpupower frequency-set -g userspace
+
+    - name:  set core frquency 
+      shell: cpupower frequency-set -f 3.7GHz
+
     - name: Remove old benchmark folder
       become: false
       file:
@@ -146,6 +167,44 @@
     - name: Remove old openwhisk folder
       become: false
       file:
-        path: "~/openwhisk"
+        path: ~/openwhisk
         state: absent
  
+    - name: Clone git benchmark repository
+      become: false
+      git:
+        repo: https://github.com/donaldonana/openwhisk.git
+        dest: ~/openwhisk
+        clone: yes
+    
+
+    - name: Pull Docker images from Docker Hub
+      community.docker.docker_image:
+        name: "{{ item }}"
+        source: pull
+      loop:
+        - onanad/action-python-v3.9:thumb
+        - onanad/action-python-v3.9:decode
+        - onanad/action-python-v3.9:draw
+        - onanad/action-python-v3.9:encode
+        - onanad/action-python-v3.9:facerec
+        - onanad/action-python-v3.9:facerecprim
+        - onanad/action-python-v3.9:keep
+        - onanad/action-python-v3.9:scenechange
+        - onanad/action-python-v3.9:proc
+        - onanad/action-python-v3.9:text2speech
+        - onanad/action-python-v3.9:conversion
+        - onanad/action-python-v3.9:censor
+        - onanad/action-python-v3.9:profanity
+        - onanad/action-python-v3.9:imgrec  
+
+
+    - name:  set core frquency 
+      shell: cpupower frequency-set -g userspace
+
+    - name:  set core frquency 
+      shell: cpupower frequency-set -f 3.7GHz
+ 
+
+
+#  scp -r ../swift-code/params onana@clnode201.clemson.cloudlab.us:/users/onana/benchmark/swift-code/

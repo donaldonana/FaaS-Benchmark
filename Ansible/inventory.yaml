@@ -13,4 +13,4 @@ storage:
     ansible_user: onana
 
 
- 
+#  ssh onana@clnode185.clemson.cloudlab.us

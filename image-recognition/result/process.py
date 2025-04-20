@@ -75,7 +75,7 @@ def process_cpu_energy_meter(output, headers, directory) -> None:
         # for each file in the subfolder (pillow1Mb.JPEG.txt)
         for file in os.listdir(dir_path):  
             file_path = os.path.join(dir_path, file)
-            library = file.replace(image+".JPEG.txt", "")
+            model = file.replace(image+".JPEG.txt", "")
 
             with open(file_path, 'r') as file:
                 lines = file.readlines()
@@ -120,7 +120,7 @@ if __name__ == "__main__":
         'cpu1_package_joules', 
         'cpu1_dram_joules', 
         'image', 
-        'model'
+        'model',
         'cpu_count'
     ]
     
