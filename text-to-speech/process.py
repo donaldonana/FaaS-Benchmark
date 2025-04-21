@@ -2,6 +2,66 @@ import os
 import json
 import csv
 
+
+
+def csv_save(output, headers, data) -> None:
+    """_summary_
+
+    Args:
+        output (string): _description_
+        headers (list): _description_
+        data (dict): _description_
+    """
+    with open(output, 'w', newline='') as csvfile:
+        file = csv.DictWriter(csvfile, fieldnames=headers)
+        file.writeheader()
+
+        for item in data:
+            file.writerow({
+                key : val for key, val in list(item.items())
+            })
+            
+    print(f"{output}.csv succesfully save")
+
+
+
+def process_cpu_energy_meter(output, headers, directory) -> None:
+    """_summary_
+
+    Args:
+        output (string): _description_
+        headers (list): _description_
+        directory (string): _description_
+    """
+    data, item = [], {}
+    
+    # for each subfolder in Energy folder (1Mb.JPEG)
+    for dir in os.listdir("result/energy"):
+        dir_path = os.path.join("result/energy", dir)
+        schema = dir
+
+        # for each file in the subfolder (pillow1Mb.JPEG.txt)
+        for file in os.listdir(dir_path):  
+            file_path = os.path.join(dir_path, file)
+            text = file.replace(".txt", "")
+
+            with open(file_path, 'r') as file:
+                lines = file.readlines()
+                
+            for line in lines:
+                line = line.strip()
+                if line:
+                    key, val = line.split('=')
+                    item[key] = val
+                else:
+                    if item:
+                        item["schema"], item["text"] = schema, text
+                        data.append(item)
+                        item = {}
+                        
+    csv_save(output, headers, data)
+    
+
 def preprocess_json_objects(content):
     """Ensure proper JSON object formatting."""
     content = content.strip()
@@ -107,13 +167,33 @@ def toCSV(input_file, output_file ):
 
                 })
          
- 
-# Usage
-input_file = 'result.txt'
-output_file = 'finalresult.txt'
-csv_file = 'result.csv' 
 
-add(input_file, output_file)
 
-toCSV(output_file, csv_file)
+if __name__ == "__main__":
+    
+    # Usage
+    input_file = 'result/result.txt'
+    output_file = 'result/finalresult.txt'
+    csv_file = 'result/result.csv' 
+
+    add(input_file, output_file)
+
+    toCSV(output_file, csv_file)
+
+    headers = [
+        'duration_seconds',
+        'cpu0_package_joules',
+        'cpu0_dram_joules',
+        'cpu1_package_joules',
+        'cpu1_dram_joules',
+        'schema',
+        'text',
+        'cpu_count'
+        
+    ]    
+     
+    
+    process_cpu_energy_meter("result/energy.csv", headers, "energy")
+
+
 

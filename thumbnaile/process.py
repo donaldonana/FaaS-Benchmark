@@ -37,7 +37,7 @@ def metric_precess(output, headers) -> None:
     buffer = ""
     brace_count = 0
     
-    with open('result.txt', 'r') as file:
+    with open('result/result.txt', 'r') as file:
         log_content = file.read()
         
     for char in log_content:
@@ -69,7 +69,7 @@ def process_cpu_energy_meter(output, headers, directory) -> None:
     data, item = [], {}
     
     # for each subfolder in Energy folder (1Mb.JPEG)
-    for dir in os.listdir("energy"):
+    for dir in os.listdir("result/energy"):
         dir_path = os.path.join("energy", dir)
         image = dir.replace(".JPEG", "")
 
@@ -110,7 +110,7 @@ if __name__ == "__main__":
         "upload_time"
     ]
     
-    metric_precess("result.csv", headers)
+    metric_precess("result/result.csv", headers)
     
     headers = [
         'duration_seconds', 
@@ -123,7 +123,7 @@ if __name__ == "__main__":
         'cpu_count'
     ]
     
-    process_cpu_energy_meter("energy.csv", headers, "energy")
+    process_cpu_energy_meter("result/energy.csv", headers, "energy")
 
 
     
