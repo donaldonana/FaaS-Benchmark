@@ -1,7 +1,7 @@
 compute:
   hosts:
     node0:
-      ansible_host: onana@clnode201.clemson.cloudlab.us
+      ansible_host: onana@clnode185.clemson.cloudlab.us
   vars:
     ansible_user: onana
 
@@ -13,4 +13,5 @@ storage:
     ansible_user: onana
 
 
-#  ssh onana@clnode185.clemson.cloudlab.us
+#   onana@clnode185.clemson.cloudlab.us
+#  onana@clnode201.clemson.cloudlab.us

@@ -106,7 +106,7 @@
 
     # Install cpu energy meter
     - name: Install cpu energy meter
-      shell: apt install ./tmp/cpu-energy-meter*.deb
+      shell: apt install /tmp/cpu-energy-meter*.deb -y 
 
     # Install OpenWhisk wskdeploy
     - name: Download openwhisk wskdeploy package
