@@ -151,7 +151,7 @@ def toCSV(input_file, output_file ):
     headers = ["schema", "text", "process", "pull", "push"]
 
     # Open the CSV file for writing
-    with open('result.csv', 'w', newline='') as csvfile:
+    with open('result/result.csv', 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=headers)
         writer.writeheader()
 
@@ -159,15 +159,13 @@ def toCSV(input_file, output_file ):
         for entry in data:
             entry = entry["body"]
             writer.writerow({
-                    "schema": entry["schema"],
-                    "text": entry["text"].replace(".txt", ""),
-                    "process": entry["process"],
-                    "pull": entry["pull"],
-                    "push": entry["push"],
-
-                })
+                "schema": entry["schema"],
+                "text": entry["text"].replace(".txt", ""),
+                "process": entry["process"],
+                "pull": entry["pull"],
+                "push": entry["push"],
+            })
          
-
 
 if __name__ == "__main__":
     
