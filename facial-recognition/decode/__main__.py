@@ -54,7 +54,7 @@ def push(chunkdir, ipv4):
 
     with open(chunkdir + ".zip", 'rb') as f:
         conn.put_object(container, chunkdir + ".zip", contents=f.read())
-
+        
     return ("Ok")
    
 

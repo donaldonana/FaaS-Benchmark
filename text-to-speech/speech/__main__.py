@@ -47,7 +47,7 @@ def push(obj, ipv4):
     container = 'whiskcontainer'
  
     with open(obj, 'rb') as f:
-        conn.put_object(container, obj, contents=f.read())
+        conn.put_object(container, obj, contents=f, content_length=os.path.getsize(obj))
  
     return ("Ok")
 
