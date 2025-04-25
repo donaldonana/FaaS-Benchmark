@@ -2,6 +2,10 @@ from profanity import profanity
 import swiftclient
 import json
 import datetime
+import os
+import subprocess
+
+
 
 
 def pull(obj, ipv4):

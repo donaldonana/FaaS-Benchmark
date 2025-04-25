@@ -199,12 +199,9 @@
         - onanad/action-python-v3.9:imgrec  
 
 
-    - name:  set core frquency 
-      shell: cpupower frequency-set -g userspace
 
-    - name:  set core frquency 
-      shell: cpupower frequency-set -f 3.7GHz
  
 
 
 #  scp -r ../swift-code/params onana@clnode201.clemson.cloudlab.us:/users/onana/benchmark/swift-code/
+#  scp -r ../swift-code/params onana@clnode185.clemson.cloudlab.us:/users/onana/benchmark/swift-code/

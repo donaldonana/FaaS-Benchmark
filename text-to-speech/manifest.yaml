@@ -12,7 +12,7 @@ packages:
                 docker: onanad/action-python-v3.9:conversion
                 web: true
                 limits:
-                    memorySize: 200
+                    memorySize: 500
             profanity:
                 function: profanity/__main__.py
                 docker: onanad/action-python-v3.9:profanity
@@ -24,7 +24,7 @@ packages:
                 docker: onanad/action-python-v3.9:censor
                 web: true
                 limits:
-                    memorySize: 300
+                    memorySize: 500
             coord:
                 function: coord/__main__.py
             validation:

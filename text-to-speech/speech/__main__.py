@@ -142,6 +142,11 @@ def main(args):
     
     ipv4 = args.get("ipv4", "192.168.1.120")
     text = args.get("text", "1Ko.txt")
+    
+    try:
+        os.remove(text)
+    except Exception as e:
+        print(f"Cleanup failed: {e}")
 
     pull_begin = datetime.datetime.now()
     pull(text, ipv4)

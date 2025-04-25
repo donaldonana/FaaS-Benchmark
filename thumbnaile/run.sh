@@ -1,8 +1,8 @@
 #!/bin/bash
 
-IPV4="172.20.20.80"
+IPV4="10.245.158.103"
 IMAGES=("500b.JPEG" "100Kb.JPEG" "1Mb.JPEG" "15Mb.JPEG" "256Kb.JPEG")
-LIBRARY=("pillow" "wand" "pygame" "opencv")
+LIBRARY=("pygame" "wand" "pygame" "opencv")
 
 
 for IMAGE in "${IMAGES[@]}"; do
@@ -13,7 +13,7 @@ for IMAGE in "${IMAGES[@]}"; do
     echo -e "$LIB"
     ENERGY_FILE="result/energy/$IMAGE/$LIB$IMAGE.txt"  
 
-    for (( i = 1; i <= 100; i++ )); do  
+    for (( i = 1; i <= 50; i++ )); do  
       cpu-energy-meter -r >> "$ENERGY_FILE" &     # Launch cpu-energy-meter in background and save its PID
       METER_PID=$!
       

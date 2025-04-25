@@ -1,8 +1,8 @@
 #!/bin/bash
 
-IPV4="172.20.20.77"
-SCHEMAS=("S1" "S2" "S3" "S4" "S5")
-TEXTES=("1Ko.txt" "5Ko.txt" "12Ko.txt")
+IPV4="10.44.193.201"
+SCHEMAS=("S3")
+TEXTES=("12Ko.txt")
  
 
 for SCHEMA in "${SCHEMAS[@]}"; do
@@ -15,7 +15,7 @@ for SCHEMA in "${SCHEMAS[@]}"; do
         
         #echo -e "$TEXT" >> perfEnergy.txt
         
-        for (( i = 1; i <= 1 ; i++ )); do
+        for (( i = 1; i <= 100 ; i++ )); do
         
             cpu-energy-meter -r >> "$ENERGY_FILE" &
             METER_PID=$!
@@ -36,11 +36,14 @@ for SCHEMA in "${SCHEMAS[@]}"; do
             #     --param text "$TEXT" >> "result/perf.txt"
 
             echo -e "$i"
-            sleep 2
+            sleep 3
             
         done
 
     done
+
+    sleep 2
+
 
 done
 
