@@ -82,7 +82,7 @@ def resize(args):
     # Result Uploading
     upload_begin = datetime.datetime.now()
     with open(out, 'rb') as f:
-        conn.put_object(container, obj, contents=f, content_length=out_size)
+        conn.put_object(container, out, contents=f, content_length= os.path.getsize(out))
     upload_end = datetime.datetime.now()
 
     download_time = (download_end - download_begin) / datetime.timedelta(seconds=1)

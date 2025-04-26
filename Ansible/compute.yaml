@@ -17,6 +17,7 @@
           - cpufrequtils
           - linux-tools-common
           - linux-tools-{{ ansible_kernel }}
+          - python3-requests
         state: present
         update_cache: yes
     
