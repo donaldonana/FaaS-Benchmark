@@ -17,4 +17,4 @@ storage:
 #  onana@clnode185.clemson.cloudlab.us
 #  onana@clnode201.clemson.cloudlab.us
 
-# scp -r onana@clnode201.clemson.cloudlab.us:/users/onana/benchmark/ ./
+# scp -r onana@clnode185.clemson.cloudlab.us:/users/onana/benchmark/ ./

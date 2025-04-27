@@ -6,13 +6,13 @@ packages:
                 docker: onanad/action-python-v3.9:text2speech
                 web: true
                 limits:
-                    memorySize: 250
+                    memorySize: 300
             conversion:
                 function: conversion/__main__.py
                 docker: onanad/action-python-v3.9:conversion
                 web: true
                 limits:
-                    memorySize: 500
+                    memorySize: 300
             profanity:
                 function: profanity/__main__.py
                 docker: onanad/action-python-v3.9:profanity
@@ -24,7 +24,7 @@ packages:
                 docker: onanad/action-python-v3.9:censor
                 web: true
                 limits:
-                    memorySize: 500
+                    memorySize: 300
             coord:
                 function: coord/__main__.py
             validation:

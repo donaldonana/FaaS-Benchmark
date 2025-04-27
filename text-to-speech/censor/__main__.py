@@ -38,6 +38,14 @@ def pull(obj, ipv4):
     out = obj
     
     container = 'whiskcontainer'
+    
+    # Connect to Swift
+    conn = swiftclient.Connection(
+    	authurl=auth_url,
+    	user=username,
+    	key=password,
+    	auth_version='1'
+	)
 
     file = conn.get_object(container, obj)
     with open(out, 'wb') as f:
