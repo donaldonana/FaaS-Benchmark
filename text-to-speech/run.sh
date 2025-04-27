@@ -1,8 +1,8 @@
 #!/bin/bash
 
 IPV4="10.44.193.201"
-SCHEMAS=("S3")
-TEXTES=("12Ko.txt")
+SCHEMAS=("S1" "S2" "S3" "S4" "S5")
+TEXTES=("1Ko.txt" "5Ko.txt" "12Ko.txt")
  
 
 for SCHEMA in "${SCHEMAS[@]}"; do
