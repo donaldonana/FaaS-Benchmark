@@ -9,13 +9,16 @@ for SCHEMA in "${SCHEMAS[@]}"; do
     echo  -e "$SCHEMA"
     mkdir -p "result/energy/$SCHEMA/" 
 
+
+    wsk action invoke  "demo/$SCHEMA" -r  --param ipv4   "$IPV4"   # Manually prewarm the container
+
     for TEXT in "${TEXTES[@]}"; do
         echo "$TEXT" 
         ENERGY_FILE="result/energy/$SCHEMA/$TEXT"
         
         #echo -e "$TEXT" >> perfEnergy.txt
         
-        for (( i = 1; i <= 100 ; i++ )); do
+        for (( i = 1; i <= 30 ; i++ )); do
         
             cpu-energy-meter -r >> "$ENERGY_FILE" &
             METER_PID=$!
