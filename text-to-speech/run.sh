@@ -9,8 +9,8 @@ for SCHEMA in "${SCHEMAS[@]}"; do
     echo  -e "$SCHEMA"
     mkdir -p "result/energy/$SCHEMA/" 
 
-
-    wsk action invoke  "demo/$SCHEMA" -r  --param ipv4   "$IPV4"   # Manually prewarm the container
+    wskdeploy > /dev/null
+    wsk action invoke  "demo/$SCHEMA" -r  --param ipv4   "$IPV4" > /dev/null   # Manually prewarm the container
 
     for TEXT in "${TEXTES[@]}"; do
         echo "$TEXT" 
@@ -39,7 +39,7 @@ for SCHEMA in "${SCHEMAS[@]}"; do
             #     --param text "$TEXT" >> "result/perf.txt"
 
             echo -e "$i"
-            sleep 3
+            sleep 2
             
         done
 

@@ -5,6 +5,9 @@ VIDEOS=("1Mb.avi" "6Mb.avi" "36Kb.avi" "540Kb.avi")
 LIBRARY=("moviepy" "ffmpeg" "imageio" "opencv")
  
 for VIDEO in "${VIDEOS[@]}"; do
+  wskdeploy > /dev/null
+  wsk  action invoke proc -r --param ipv4 "$IPV4" > /dev/null   # Manually prewarm the container
+
   echo  -e "$VIDEO"
   mkdir -p "result/energy/$VIDEO" 
 
