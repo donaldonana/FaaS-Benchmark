@@ -147,10 +147,10 @@
       shell: sudo update-grub
 
     - name:  governor to user space
-      shell: cpupower frequency-set -g userspace
+      shell: sudo cpupower frequency-set -g userspace
 
     - name:  set core frquency 
-      shell: cpupower frequency-set -f 3.7GHz
+      shell: sudo cpupower frequency-set -f 3.7GHz
 
     - name: Remove old benchmark folder
       become: false

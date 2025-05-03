@@ -42,6 +42,7 @@ for SCHEMA in "${SCHEMAS[@]}"; do
             sleep 2
             
         done
+        sleep 2
 
     done
 

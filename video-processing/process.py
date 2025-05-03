@@ -114,10 +114,9 @@ if __name__ == "__main__":
     
     headers = [
         'duration_seconds', 
-        'cpu0_package_joules', 
+        'cpu0_package_joules',
+        'cpu0_core_joules', 
         'cpu0_dram_joules', 
-        'cpu1_package_joules', 
-        'cpu1_dram_joules', 
         'video', 
         'library',
         'cpu_count'

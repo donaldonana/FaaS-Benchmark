@@ -89,15 +89,15 @@ def resize(args):
     upload_time   = (upload_end - upload_begin) / datetime.timedelta(seconds=1)
     process_time  = (process_end - process_begin) / datetime.timedelta(seconds=1)
 
-    return {      
-            'download_time': download_time,
-            'download_size': download_size,
-            'upload_time': upload_time,
-            'upload_size': out_size,
-            'compute_time': process_time,
-            'library' : args["bib"],
-            'image' : args["file"]
-        }
+    return {
+        'download_time': download_time,
+        'download_size': download_size,
+        'upload_time': upload_time,
+        'upload_size': out_size,
+        'compute_time': process_time,
+        'library' : args["bib"],
+        'image' : args["file"]
+    }
 
 
 biblio = {'opencv' : opencv_resize, 'pillow' : pillow_resize, 'wand' : wand_resize, 'pygame' : pygame_resize}
