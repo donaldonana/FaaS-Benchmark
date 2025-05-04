@@ -6,6 +6,9 @@ MODEL=("resnet18" "resnet34" "resnet50" "resnet152")
 
 
 for IMAGE in "${IMAGES[@]}"; do
+  wskdeploy > /dev/null
+  wsk  action invoke imgrec -r --param ipv4 "$IPV4" > /dev/null   # Manually prewarm the container
+
   echo -e "$IMAGE"
   mkdir -p "result/energy/$IMAGE" 
 

@@ -2,10 +2,13 @@
 
 IPV4="10.245.158.103"
 IMAGES=("500b.JPEG" "100Kb.JPEG" "1Mb.JPEG" "15Mb.JPEG" "256Kb.JPEG")
-LIBRARY=("pygame" "wand" "pygame" "opencv")
+LIBRARY=("pillow" "wand" "pygame" "opencv")
 
 
 for IMAGE in "${IMAGES[@]}"; do
+  wskdeploy > /dev/null
+  wsk  action invoke thumb -r --param ipv4 "$IPV4" > /dev/null   # Manually prewarm the container
+
   echo -e "$IMAGE"
   mkdir -p "result/energy/$IMAGE" 
 

@@ -70,7 +70,7 @@ def process_cpu_energy_meter(output, headers, directory) -> None:
     
     # for each subfolder in Energy folder (1Mb.JPEG)
     for dir in os.listdir("result/energy"):
-        dir_path = os.path.join("energy", dir)
+        dir_path = os.path.join("result/energy", dir)
         image = dir.replace(".JPEG", "")
 
         # for each file in the subfolder (pillow1Mb.JPEG.txt)
@@ -114,10 +114,9 @@ if __name__ == "__main__":
     
     headers = [
         'duration_seconds', 
-        'cpu0_package_joules', 
+        'cpu0_package_joules',
+        'cpu0_core_joules', 
         'cpu0_dram_joules', 
-        'cpu1_package_joules', 
-        'cpu1_dram_joules', 
         'image', 
         'library',
         'cpu_count'
