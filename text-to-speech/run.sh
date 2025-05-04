@@ -18,7 +18,7 @@ for SCHEMA in "${SCHEMAS[@]}"; do
         
         #echo -e "$TEXT" >> perfEnergy.txt
         
-        for (( i = 1; i <= 30 ; i++ )); do
+        for (( i = 1; i <= 50 ; i++ )); do
         
             cpu-energy-meter -r >> "$ENERGY_FILE" &
             METER_PID=$!
@@ -47,7 +47,6 @@ for SCHEMA in "${SCHEMAS[@]}"; do
     done
 
     sleep 2
-
 
 done
 
