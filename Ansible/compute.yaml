@@ -18,6 +18,7 @@
           - linux-tools-common
           - linux-tools-{{ ansible_kernel }}
           - python3-requests
+          - htop
         state: present
         update_cache: yes
     

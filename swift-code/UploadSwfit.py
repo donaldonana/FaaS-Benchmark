@@ -2,7 +2,7 @@ import swiftclient
 from pathlib import Path
 
 # Authentication details
-auth_url = 'http://10.245.158.103:8080/auth/v1.0'
+auth_url = 'http://10.245.158.103:8080/auth/v1.0'   
 username = 'test:tester'
 password = 'testing'
 
