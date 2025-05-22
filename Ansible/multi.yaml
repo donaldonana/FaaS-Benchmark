@@ -1,0 +1,293 @@
+# - name: Install required software on all nodes
+#   hosts: compute
+#   become: yes
+#   vars:
+#     ansible_env:
+#       USER: "onana"
+#   tasks:
+#     - name: ensure dependencies
+#       apt: 
+#         name: 
+#           - apt-utils
+#           - software-properties-common  # Ensures add-apt-repository is available
+#           - ca-certificates
+#           - curl
+#           - gnupg
+#           - lsb-release
+#           - cpufrequtils
+#           - linux-tools-common
+#           - linux-tools-{{ ansible_kernel }}
+#           - python3-requests
+#           - htop
+#           - apt-transport-https
+#           - ca-certificates
+#           - gpg
+#         state: present
+#         update_cache: yes
+    
+#     # Install nodejs and npm 
+#     - name: Install Node.js
+#       apt:
+#         name: nodejs
+#         state: present
+
+#     - name: Install npm
+#       apt:
+#         name: npm
+#         state: present
+        
+#     # Install OpenJDK 
+#     - name: Install OpenJDK 8
+#       apt:
+#         name: openjdk-8-jdk
+#         state: present
+    
+#     # Install Docker 
+#     - name: Remove old Docker Desktop if exists
+#       file:
+#         path: "{{ item }}"
+#         state: absent
+#       with_items:
+#         - "$HOME/.docker/desktop"
+#         - "/usr/local/bin/com.docker.cli"
+    
+#     - name: Purge Docker Desktop
+#       apt:
+#         name: docker-desktop
+#         state: absent
+        
+#     - name: Add Docker's official GPG key
+#       shell: |
+#         sudo mkdir -p /etc/apt/keyrings
+#         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+#       args:
+#         creates: /etc/apt/keyrings/docker.gpg
+
+#     - name: Add Docker repository
+#       shell: |
+#         echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+#       args:
+#         creates: /etc/apt/sources.list.d/docker.list
+
+#     - name: Update package list after adding Docker repository
+#       apt:
+#         update_cache: yes
+          
+#     - name: Install Docker Engine
+#       apt:
+#         name:
+#           - "docker-ce=5:20.10.13~3-0~ubuntu-jammy"
+#           - "docker-ce-cli=5:20.10.13~3-0~ubuntu-jammy"
+#           - containerd.io
+#           - docker-compose-plugin
+#         state: present
+
+#     - name: Ensure Docker group exists
+#       group:
+#         name: docker
+#         state: present
+
+#     - name: Add users to Docker group
+#       ansible.builtin.user:
+#         name: "{{ ansible_env.USER }}"
+#         groups: docker
+#         append: yes
+
+#     - name: Reset ssh connection to allow user changes to affect ansible user
+#       ansible.builtin.meta:
+#         reset_connection
+
+#     - name: Restart Docker service
+#       systemd:
+#         name: docker
+#         state: restarted
+#         enabled: yes
+
+#     # Install K8s tools 
+#     - name: Kube official GPG key
+#       shell: |
+#         sudo swapoff -a
+#         sudo mkdir -p -m 755 /etc/apt/keyrings
+#         curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+#       args:
+#         creates: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+    
+#     - name: Add Kubernetes repository
+#       shell: |
+#         echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+#       args:
+#         creates: /etc/apt/sources.list.d/kubernetes.list
+
+#     - name: Update package list after adding Docker repository
+#       apt:
+#         update_cache: yes
+
+#     - name: Install K8s tools
+#       apt:
+#         name:
+#           - kubelet
+#           - kubeadm
+#           - kubectl
+#           - docker-compose-plugin
+#         state: present
+
+#     - name: Install K8s tools
+#       shell: |
+#         sudo apt-mark hold kubelet kubeadm kubectl
+
+#     # Restart kubelet
+#     - name: Enable the kubelet service
+#       shell: |
+#         sudo systemctl enable --now kubelet
+
+#     - name: Restart kubelet service
+#       systemd:
+#         name: kubelet
+#         state: restarted
+#         enabled: yes
+
+    
+
+#     # Get cri-dockerd
+#     - name: Get cri-dockerd
+#       get_url:
+#         url: "https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.17/cri-dockerd_0.3.17.3-0.ubuntu-bionic_amd64.deb"
+#         dest: "/tmp/cri-dockerd_0.3.17.3-0.ubuntu-bionic_amd64.deb"
+
+#     # Install cri-dockerd
+#     - name: Install cri-dockerd
+#       shell: apt install /tmp/cri-dockerd_0.3.17.3-0.ubuntu-bionic_amd64.deb -y 
+
+ 
+
+
+#     # Get cpu energy meter
+#     - name: Get cpu energy meter
+#       get_url:
+#         url: "https://github.com/sosy-lab/cpu-energy-meter/releases/download/1.2/cpu-energy-meter_1.2-1_amd64.deb"
+#         dest: "/tmp/cpu-energy-meter_1.2-1_amd64.deb"
+
+#     # Install cpu energy meter
+#     - name: Install cpu energy meter
+#       shell: apt install /tmp/cpu-energy-meter*.deb -y 
+
+#     # Install OpenWhisk wskdeploy
+#     - name: Download openwhisk wskdeploy package
+#       get_url:
+#         url: "https://github.com/apache/openwhisk-wskdeploy/releases/download/1.2.0/openwhisk_wskdeploy-1.2.0-linux-amd64.tgz"
+#         dest: "/tmp/openwhisk_wskdeploy-1.2.0-linux-amd64.tgz"
+
+#     - name: Extract openwhisk wskdeploy
+#       unarchive:
+#         src: "/tmp/openwhisk_wskdeploy-1.2.0-linux-amd64.tgz"
+#         dest: "/tmp"
+#         remote_src: yes
+#     - name: Move wskdeploy to /usr/local/bin
+#       shell: mv /tmp/wskdeploy /usr/local/bin/wskdeploy
+      
+#     # Install OpenWhisk wsk
+#     - name: Download openwhisk wsk package
+#       get_url:
+#         url: "https://github.com/apache/openwhisk-cli/releases/download/1.2.0/OpenWhisk_CLI-1.2.0-linux-amd64.tgz"
+#         dest: "/tmp/OpenWhisk_CLI-1.2.0-linux-amd64.tgz"
+
+#     - name: Extract openwhisk wsk
+#       unarchive:
+#         src: "/tmp/OpenWhisk_CLI-1.2.0-linux-amd64.tgz"
+#         dest: "/tmp"
+#         remote_src: yes
+#     - name: Move wsk to /usr/local/bin
+#       shell: mv /tmp/wsk /usr/local/bin/wsk
+ 
+#     - name: Fix CPU frequncy
+#       replace:
+#         path: "/etc/default/grub"
+#         regexp: 'GRUB_CMDLINE_LINUX_DEFAULT=""'
+#         replace: 'GRUB_CMDLINE_LINUX_DEFAULT="processor.ignore_ppc=1 intel_idle.max_cstate=0 idle=poll"'
+
+#     - name:  update the grub
+#       shell: sudo update-grub
+
+#     - name:  governor to user space
+#       shell: sudo cpupower frequency-set -g userspace
+
+#     - name:  set core frquency 
+#       shell: sudo cpupower frequency-set -f 3.7GHz
+
+#     - name: Remove old benchmark folder
+#       become: false
+#       file:
+#         path: "~/benchmark"
+#         state: absent
+
+#     - name: Clone git benchmark repository
+#       become: false
+#       git:
+#         repo: https://github.com/donaldonana/benchmark.git
+#         dest: ~/benchmark
+#         clone: yes
+
+#     - name: Remove old openwhisk folder
+#       become: false
+#       file:
+#         path: ~/openwhisk
+#         state: absent
+ 
+#     - name: Clone git benchmark repository
+#       become: false
+#       git:
+#         repo: https://github.com/donaldonana/openwhisk.git
+#         dest: ~/openwhisk
+#         clone: yes
+
+#     - name: Pull Docker images from Docker Hub
+#       community.docker.docker_image:
+#         name: "{{ item }}"
+#         source: pull
+#       loop:
+#         - onanad/action-python-v3.9:thumb
+#         - onanad/action-python-v3.9:decode
+#         - onanad/action-python-v3.9:draw
+#         - onanad/action-python-v3.9:encode
+#         - onanad/action-python-v3.9:facerec
+#         - onanad/action-python-v3.9:facerecprim
+#         - onanad/action-python-v3.9:keep
+#         - onanad/action-python-v3.9:scenechange
+#         - onanad/action-python-v3.9:proc
+#         - onanad/action-python-v3.9:text2speech
+#         - onanad/action-python-v3.9:conversion
+#         - onanad/action-python-v3.9:censor
+#         - onanad/action-python-v3.9:profanity
+#         - onanad/action-python-v3.9:imgrec  
+
+
+
+- name: controller node
+  hosts: controller
+  become: yes
+  vars:
+    ansible_env:
+      USER: "onana"
+  tasks:
+    # - name: /etc/kubernetes/admin.conf to ~/.kube/config
+    #   become: false
+    #   copy:
+    #     src: /etc/kubernetes/admin.conf
+    #     dest: ~/.kube/config
+    #     mode: 'a+x'
+    #   args:
+    #     creates: ~/.kube
+    - name: Copy admin.conf using shell (not recommended unless necessary)
+      become: false
+      shell: |
+        cp -i /etc/kubernetes/admin.conf ~/.kube/config
+        sudo chown $(id -u):$(id -g) $HOME/.kube/config
+      args:
+        creates: ~/.kube/config
+ 
+    - name: Apply Weave Net plugin
+      shell: |
+        KUBECONFIG=/etc/kubernetes/admin.conf \
+        kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s-1.11.yaml
+      args:
+        executable: /bin/bash

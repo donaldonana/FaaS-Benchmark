@@ -1,20 +1,34 @@
 compute:
   hosts:
     node0:
-      ansible_host: onana@apt139.apt.emulab.net
+      ansible_host: onana@apt108.apt.emulab.net
+    node1:
+      ansible_host: onana@apt117.apt.emulab.net
+    node2:
+      ansible_host: onana@apt120.apt.emulab.net
+  vars:
+    ansible_user: onana
+
+controller:
+  hosts:
+    node0:
+      ansible_host: onana@apt108.apt.emulab.net
   vars:
     ansible_user: onana
 
 storage:
   hosts:
     node0:
-      ansible_host: onana@apt139.apt.emulab.net
+      ansible_host: onana@apt108.apt.emulab.net
   vars:
     ansible_user: onana
-
 
 
 #  onana@clnode234.clemson.cloudlab.us
 
 # scp -r onana@apt139.apt.emulab.net:/users/onana/benchmark/ ./
 # ssh onana@apt139.apt.emulab.net
+
+# ssh onana@apt108.apt.emulab.net
+
+# ssh onana@apt117.apt.emulab.net
