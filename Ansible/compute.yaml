@@ -19,6 +19,10 @@
           - linux-tools-{{ ansible_kernel }}
           - python3-requests
           - htop
+          - zip
+          - python3-venv
+          - libcurl4-openssl-dev
+
         state: present
         update_cache: yes
     

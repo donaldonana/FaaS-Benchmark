@@ -22,6 +22,9 @@
 #           - apt-transport-https
 #           - ca-certificates
 #           - gpg
+          # - zip
+          # - python3-venv
+
 #         state: present
 #         update_cache: yes
     
@@ -261,7 +264,6 @@
 #         - onanad/action-python-v3.9:imgrec  
 
 
-
 - name: controller node
   hosts: controller
   become: yes
@@ -269,15 +271,8 @@
     ansible_env:
       USER: "onana"
   tasks:
-    # - name: /etc/kubernetes/admin.conf to ~/.kube/config
-    #   become: false
-    #   copy:
-    #     src: /etc/kubernetes/admin.conf
-    #     dest: ~/.kube/config
-    #     mode: 'a+x'
-    #   args:
-    #     creates: ~/.kube
-    - name: Copy admin.conf using shell (not recommended unless necessary)
+     
+    - name: Copy admin.conf using shell  
       become: false
       shell: |
         cp -i /etc/kubernetes/admin.conf ~/.kube/config
