@@ -82,7 +82,7 @@ def main(args):
     result = recognition({
         "image"  : args.get("image", '500b.JPEG'),
         "resnet" : args.get("resnet", "resnet18"),
-        "ipv4"   : args.get("ipv4", " "),
+        "ipv4"   : "10.245.158.103",
     })
      
     return result
