@@ -55,18 +55,16 @@ def sceneChange(chunkdir, scene_threshold=0.1):
         
         if prev_frame is not None:
             diff = cv2.absdiff(cv2.cvtColor(frame, cv2.COLOR_RGB2BGR), cv2.cvtColor(prev_frame, cv2.COLOR_RGB2BGR))
-			# Normalize the difference to a value between 0 and 1
-            normalized_diff = np.sum(diff) / (diff.shape[0] * diff.shape[1] * diff.shape[2] * 255.0)
+            factor =  (diff.shape[0] * diff.shape[1] * diff.shape[2] * 255.0)
+            normalized_diff = np.sum(diff) / factor  # Normalize between 0 and 1
 
-            if normalized_diff < scene_threshold:
+            if normalized_diff < scene_threshold: # check if scene significantly
                 frames.append(file)
-            
             else:
                 scene = {"face" : False, "frames" : frames, "box" : []}
                 result.append(scene)
                 frames = []
                 frames.append(file)
-
         else:
             frames.append(file)
 
@@ -100,9 +98,9 @@ def main(args):
     }
     
     return {
-            "status": "OK",
-		    "ref" : result,
-            "times" : times,
-            "chunkdir": chunkdir,
-            "ipv4" : ipv4
-            }
+        "status": "OK",
+		"ref" : result,
+        "times" : times,
+        "chunkdir": chunkdir,
+        "ipv4" : ipv4
+    }

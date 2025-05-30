@@ -66,12 +66,10 @@ def facialRec(scenes, chunkdir, known_face_encodings):
 
 			for (top, right, bottom, left), face_encoding in zip(face_locations, face_encodings):
 				matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-			
 				if matches[0] == True:
 					find = True
 					box = [(left, top), (right, bottom)]
 					break
-
 			if find:
 				break
 

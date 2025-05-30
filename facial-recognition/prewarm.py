@@ -4,13 +4,10 @@ import subprocess
 import time
 
 DURATION = 30
-PROCESS  = 4
+PROCESS  = 10
 SCHEMA   = "S2"
 IPV4  = "10.245.158.103"
 VIDEO = "daenerys.mp4"
-RESULT_FILE = "result/result.txt"
-ENERGY_DIR = f"result/energy/{SCHEMA}"
-ENERGY_FILE = f"{ENERGY_DIR}/{VIDEO}.txt"
 
 processes = []
 num_processes = PROCESS
@@ -19,15 +16,9 @@ chunk_duration = DURATION // PROCESS
 os.makedirs(ENERGY_DIR, exist_ok=True)
 
 for i in range(1, 2):
-    
-    # cpu-energy-meter in the background.
-    energy_process = subprocess.Popen(["cpu-energy-meter", "-r"], stdout=open(ENERGY_FILE, 'a')) 
-
-	# For each expe. we launch each process with part of a video as parameter. 
+     
     for k in range(PROCESS):
         start_time = k * chunk_duration
-        
-        # print(k)
 
         if k == (num_processes - 1) :
             chunk_duration = chunk_duration + (DURATION%num_processes)
@@ -43,14 +34,12 @@ for i in range(1, 2):
         "--param", "expe", str(i)
     	]
         
-        process = subprocess.Popen(command, stdout=open(RESULT_FILE, 'a')) # Run each command in the background.
+        process = subprocess.Popen(command) # Run each command in the background.
         processes.append(process)
 
     for process in processes:
         process.wait()
         
-    os.kill(energy_process.pid, signal.SIGINT)
-
     print(i)
     time.sleep(2)
 

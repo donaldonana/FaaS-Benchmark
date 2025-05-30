@@ -40,7 +40,7 @@ packages:
                     memorySize: 200
         sequences:
             S1: 
-                actions: decode
+                actions: decode, scenechange, facerec, draw, encode
             S2: 
                 actions: decode, facerecprim, draw, encode
             S3: 
