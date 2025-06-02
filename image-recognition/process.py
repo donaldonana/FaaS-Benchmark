@@ -61,25 +61,24 @@ def process_cpu_energy_meter(output, headers, directory) -> None:
     """_summary_
 
     Args:
-        output (string): _description_
-        headers (list): _description_
-        directory (string): _description_
+        output (_type_): _description_
+        headers (_type_): _description_
+        directory (_type_): _description_
     """
-    data, item = [], {}
+    data = list()
+    item = dict()
     
     # for each subfolder in Energy folder (1Mb.JPEG)
     for dir in os.listdir("result/energy"):
         dir_path = os.path.join("result/energy", dir)
         image = dir.replace(".JPEG", "")
 
-        # for each file in the subfolder (pillow1Mb.JPEG.txt)
         for file in os.listdir(dir_path):  
             file_path = os.path.join(dir_path, file)
             model = file.replace(image+".JPEG.txt", "")
-
+            
             with open(file_path, 'r') as file:
                 lines = file.readlines()
-                
             for line in lines:
                 line = line.strip()
                 if line:
@@ -96,7 +95,6 @@ def process_cpu_energy_meter(output, headers, directory) -> None:
     
 
 if __name__ == "__main__":
-    
     
     # Define CSV headers for others data proc. 
     headers = [

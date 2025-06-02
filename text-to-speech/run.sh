@@ -6,28 +6,23 @@ TEXTES=("1Ko.txt" "5Ko.txt" "12Ko.txt")
  
 
 for SCHEMA in "${SCHEMAS[@]}"; do
-    echo  -e "$SCHEMA"
-    mkdir -p "result/energy/$SCHEMA/" 
-
     wskdeploy > /dev/null
+    mkdir -p "result/energy/$SCHEMA/" 
     wsk action invoke  "demo/$SCHEMA" -r  --param ipv4   "$IPV4" > /dev/null   # Manually prewarm the container
+    echo  -e "$SCHEMA"
 
     for TEXT in "${TEXTES[@]}"; do
         echo "$TEXT" 
         ENERGY_FILE="result/energy/$SCHEMA/$TEXT"
-        
         #echo -e "$TEXT" >> perfEnergy.txt
-        
+
         for (( i = 1; i <= 10 ; i++ )); do
-        
             cpu-energy-meter -r >> "$ENERGY_FILE" &
             METER_PID=$!
-
             wsk action invoke  "demo/$SCHEMA" -r \
                 --param ipv4   "$IPV4" \
                 --param schema "$SCHEMA" \
                 --param text   "$TEXT" >> result/result.txt
-            
             kill -SIGINT $METER_PID
 
             # Energy capturing with perf
@@ -37,17 +32,12 @@ for SCHEMA in "${SCHEMAS[@]}"; do
             #     --param ipv4 "$IPV4" \
             #     --param schema "S1" \
             #     --param text "$TEXT" >> "result/perf.txt"
-
             echo -e "$i"
             sleep 2
-            
         done
+        
         sleep 2
-
     done
-
-    sleep 2
-
 done
 
 
