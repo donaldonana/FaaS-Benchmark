@@ -9,8 +9,7 @@ def preprocess_json_objects(content):
     
     # Split the content into separate JSON objects
     objects = []
-    obj_start = 0
-    bracket_count = 0
+    obj_start, bracket_count = 0, 0
     
     for i, char in enumerate(content):
         if char == '{':
@@ -28,36 +27,26 @@ def preprocess_json_objects(content):
 def add(input_file, output_file ):
     data = []
 
-    # Read the entire content of the file
     with open(input_file, 'r') as file:
         content = file.read()
     
-    # Process JSON objects
     json_objects = preprocess_json_objects(content)
 
     for obj in json_objects:
-        try:
-            # Load JSON object
-            entry = json.loads(obj)
-            data.append(entry)
-        except json.JSONDecodeError as e:
-            print(f"Error decoding JSON object: {e}")
-            print(f"Problematic JSON object: {obj}")
-            continue
-
-    # Replace field names where schema matches
-    for entry in data:
-        total_process, total_pull, total_push = 0.0, 0.0, 0.0
+        entry = json.loads(obj)
+        process, pull, push = 0.0, 0.0, 0.0
+        
         for key, value in entry.items():
-    	    	if isinstance(value, dict):
-                    total_process += value.get("process", 0)
-                    total_pull += value.get("pull", 0)
-                    total_push += value.get("push", 0)
-        entry["process"] = total_process
-        entry["pull"] = total_pull
-        entry["push"] = total_push
-
-    # Write the modified data to a new file
+            if isinstance(value, dict):
+                process += value.get("process", 0)
+                pull += value.get("pull", 0)
+                push += value.get("push", 0)
+                
+        entry["body"]["process"] = process
+        entry["body"]["pull"] = pull
+        entry["body"]["push"] = push
+        data.append(entry)
+        
     with open(output_file, 'w') as file:
         for entry in data:
             file.write(json.dumps(entry, indent=4) + '\n')
