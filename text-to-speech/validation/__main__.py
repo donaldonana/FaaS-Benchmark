@@ -4,7 +4,7 @@ import datetime
 
 def main(args):
 
-    n = args.get("iter", 4e7)
+    n = args.get("iter", 5e7)
     
     process_begin = datetime.datetime.now()
     for i in range(int(n)):
