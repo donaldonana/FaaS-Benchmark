@@ -46,17 +46,13 @@ def pull(obj, ipv4):
     with open("speech.mp3", 'wb') as f:
         f.write(file[1])
         
-    del file
     conn.close()
     return ("Ok")
 
 
 def conversion(file):
-
-    args = [
-            "-i", file, 
-            "speech.wav",
-        ]
+    args = ["-i", file, "speech.wav",]
+    
     subprocess.run(
             ["ffmpeg", '-y'] + args,
             stdin=subprocess.DEVNULL,
@@ -85,10 +81,10 @@ def main(args):
     args["body"]["wavefilesize"] = os.path.getsize(result)
 
     args["body"]["conversion"] = {
-            "process" : (process_end - process_begin) / datetime.timedelta(seconds=1),
-            "pull" : (pull_end - pull_begin) / datetime.timedelta(seconds=1),
-            "push" : (push_end - push_begin) / datetime.timedelta(seconds=1)
-        }
+         "process" : (process_end - process_begin) / datetime.timedelta(seconds=1),
+         "pull" : (pull_end - pull_begin) / datetime.timedelta(seconds=1),
+         "push" : (push_end - push_begin) / datetime.timedelta(seconds=1)
+    }
          
 
     return  args
