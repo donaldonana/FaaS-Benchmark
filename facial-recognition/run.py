@@ -18,21 +18,56 @@ chunk_duration = DURATION // PROCESS
 
 os.makedirs(ENERGY_DIR, exist_ok=True)
 
-for i in range(1, 2):
-    
-    # cpu-energy-meter in the background.
-    energy_process = subprocess.Popen(["cpu-energy-meter", "-r"], stdout=open(ENERGY_FILE, 'a')) 
 
-	# For each expe. we launch each process with part of a video as parameter. 
+
+def prewarm(command:list, process:int)-> bool:
+    
+    print("Prewarm start.")
+    
     for k in range(PROCESS):
         start_time = k * chunk_duration
-        
-        # print(k)
 
         if k == (num_processes - 1) :
             chunk_duration = chunk_duration + (DURATION%num_processes)
 
-        command = [
+        process = subprocess.Popen(command, stdout=open(RESULT_FILE, 'a')) # Run each command in the background.
+        processes.append(process)
+
+    for process in processes:
+        process.wait()
+        
+    return True 
+    
+
+def run(command:list, ntimes:int, process:int) -> bool: 
+    ntimes = 2
+    
+    for i in range(1, ntimes):
+        energy_process = subprocess.Popen(["cpu-energy-meter", "-r"], stdout=open(ENERGY_FILE, 'a'))  # cpu-energy-meter the background.
+         
+        for k in range(PROCESS): # Launch each process with part of a video as parameter.
+            start_time = k * chunk_duration
+            
+            if k == (num_processes - 1) :
+                chunk_duration = chunk_duration + (DURATION%num_processes)
+
+            process = subprocess.Popen(command, stdout=open(RESULT_FILE, 'a')) # Run each command in the background.
+            processes.append(process)
+
+        for process in processes:
+            process.wait()
+            
+        os.kill(energy_process.pid, signal.SIGINT)
+
+        print(i)
+        time.sleep(2)
+
+    return True
+        
+        
+if __name__ == "__main__":
+    
+    command = [
         "wsk", "action", "invoke", SCHEMA, "-r", "--blocking",
         "--param", "ipv4", IPV4,
         "--param", "start", str(start_time),
@@ -41,20 +76,14 @@ for i in range(1, 2):
         "--param", "video", VIDEO,
         "--param", "chunkdir", f"chunk.{k}",
         "--param", "expe", str(i)
-    	]
-        
-        process = subprocess.Popen(command, stdout=open(RESULT_FILE, 'a')) # Run each command in the background.
-        processes.append(process)
-
-    for process in processes:
-        process.wait()
-        
-    os.kill(energy_process.pid, signal.SIGINT)
-
-    print(i)
-    time.sleep(2)
-
-print("All actions have been invoked.")
+    ]
+            
+    
+    prewarm()
+    
+    run()
+    
+    
 
 
 

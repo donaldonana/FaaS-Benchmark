@@ -3,7 +3,6 @@ import json
 import csv
 
 
-
 def csv_save(output, headers, data) -> None:
     """_summary_
 
@@ -26,13 +25,7 @@ def csv_save(output, headers, data) -> None:
 
 
 def process_cpu_energy_meter(output, headers, directory) -> None:
-    """_summary_
-
-    Args:
-        output (string): _description_
-        headers (list): _description_
-        directory (string): _description_
-    """
+     
     data, item = [], {}
     
     # for each subfolder in Energy folder (1Mb.JPEG)
@@ -186,7 +179,6 @@ if __name__ == "__main__":
         'schema',
         'text',
         'cpu_count'
-        
     ]    
      
     
