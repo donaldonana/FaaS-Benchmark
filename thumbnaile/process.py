@@ -80,7 +80,6 @@ def process_cpu_energy_meter(output, headers, directory) -> None:
 
             with open(file_path, 'r') as file:
                 lines = file.readlines()
-                
             for line in lines:
                 line = line.strip()
                 if line:

@@ -8,9 +8,9 @@ LIBRARY=("pillow" "wand" "pygame" "opencv")
 for IMAGE in "${IMAGES[@]}"; do
   wskdeploy > /dev/null
   wsk  action invoke thumb -r --param ipv4 "$IPV4" > /dev/null   # Manually prewarm the container
-
-  echo -e "$IMAGE"
   mkdir -p "result/energy/$IMAGE" 
+  echo -e "$IMAGE"
+
 
   for LIB in "${LIBRARY[@]}"; do
     echo -e "$LIB"
