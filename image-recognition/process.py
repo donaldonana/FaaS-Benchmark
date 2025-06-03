@@ -25,14 +25,7 @@ def csv_save(output, headers, data) -> None:
 
  
 def metric_precess(output, headers) -> None:
-    """_summary_
-
-    Args:
-        output (_type_): _description_
-        headers (_type_): _description_
-        data (_type_): _description_
- 
-    """
+     
     data = []
     buffer = ""
     brace_count = 0
@@ -58,13 +51,7 @@ def metric_precess(output, headers) -> None:
     
  
 def process_cpu_energy_meter(output, headers, directory) -> None:
-    """_summary_
-
-    Args:
-        output (_type_): _description_
-        headers (_type_): _description_
-        directory (_type_): _description_
-    """
+     
     data = list()
     item = dict()
     
