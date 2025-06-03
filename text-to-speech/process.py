@@ -20,7 +20,7 @@ def csv_save(output:str, headers:list, data:dict) -> None:
                 key : val for key, val in list(item.items())
             })
             
-    print(f"{output}.csv succesfully save")
+    print(f"{output} succesfully save")
 
 
 def compute_totals(entry:dict)->dict:
@@ -71,18 +71,15 @@ def to_csv(input_file:str, output_file:str)->bool:
             "push": body.get("push", 0.0),
         })
 
-
-    with open(output_file, 'w', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=headers)
-        writer.writeheader()
-        writer.writerows(rows)
-
+    csv_save(output_file, headers, rows)
+     
     return True
           
 
-def process_cpu_energy_meter(output:str, headers:list, directory:str) -> None:
+def process_cpu_energy_meter(output:str, headers:list, directory:str) -> True:
      
-    data, item = [], {}
+    data = list()
+    item = dict()
     
     # for each subfolder in Energy folder (1Mb.JPEG)
     for dir in os.listdir("result/energy"):
@@ -109,6 +106,8 @@ def process_cpu_energy_meter(output:str, headers:list, directory:str) -> None:
                         item = {}
                         
     csv_save(output, headers, data)
+    
+    return True
     
 
 def preprocess_json_objects(content):
