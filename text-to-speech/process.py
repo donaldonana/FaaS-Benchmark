@@ -134,11 +134,11 @@ def preprocess_json_objects(content):
     return objects
 
 
- 
 if __name__ == "__main__":
    
     input_file = 'result/result.txt'
     csv_file   = 'result/result.csv' 
+    
     to_csv(input_file, csv_file)
 
     headers = [
@@ -150,7 +150,6 @@ if __name__ == "__main__":
         'text',
         'cpu_count'
     ]    
-     
     
     process_cpu_energy_meter("result/energy.csv", headers, "energy")
 

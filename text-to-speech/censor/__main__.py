@@ -108,9 +108,9 @@ def main(args):
 
     args["WavCensoredSize"] = os.path.getsize("censored.wav")
     args["censor"] = {
-            "process" : (process_end - process_begin) / datetime.timedelta(seconds=1),
-            "pull" : (pull_end - pull_begin) / datetime.timedelta(seconds=1),
-            "push" : (push_end - push_begin) / datetime.timedelta(seconds=1)
-        }
+        "process" : (process_end - process_begin) / datetime.timedelta(seconds=1),
+        "pull" : (pull_end - pull_begin) / datetime.timedelta(seconds=1),
+        "push" : (push_end - push_begin) / datetime.timedelta(seconds=1)
+    }
 
     return  {"body" : args}
