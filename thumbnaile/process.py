@@ -12,7 +12,6 @@ def csv_save(output, headers, data) -> True:
         headers (list): _description_
         data (dict): _description_
     """
-    
     with open(output, 'w', newline='') as csvfile:
         file = csv.DictWriter(csvfile, fieldnames=headers)
         file.writeheader()
@@ -31,7 +30,6 @@ def metric_precess(content: str, headers: list, csv_file: str) -> True:
     """
     Excavates buried JSON treasures from the jungle of text.
     """
-    
     content = content.strip()
     if not content:
         return []
@@ -64,7 +62,6 @@ def process_cpu_energy_meter(output:str, headers:list, energy_file:str) -> True:
     """
     Parse cpu energy meter result files 
     """
-    
     data = list()
     item = dict()
     
