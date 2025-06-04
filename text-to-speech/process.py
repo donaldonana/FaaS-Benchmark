@@ -5,7 +5,7 @@ from collections import defaultdict
 
 
 
-def csv_save(output:str, headers:list, data:dict) -> None:
+def csv_save(output:str, headers:list, data:dict) -> True:
     """_summary_
 
     Args:
@@ -23,6 +23,8 @@ def csv_save(output:str, headers:list, data:dict) -> None:
             })
             
     print(f"{output} succesfully save")
+    
+    return True
 
 
 def compute_totals(entry:dict)->dict:
@@ -140,7 +142,6 @@ def preprocess_json_objects(content: str) -> list:
                 mapStart = None
 
     return data
-
 
 
 if __name__ == "__main__":

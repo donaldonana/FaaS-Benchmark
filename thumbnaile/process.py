@@ -4,7 +4,7 @@ import json
 import pandas as pd
 
 
-def csv_save(output, headers, data) -> None:
+def csv_save(output, headers, data) -> True:
     """_summary_
 
     Args:
@@ -12,6 +12,7 @@ def csv_save(output, headers, data) -> None:
         headers (list): _description_
         data (dict): _description_
     """
+    
     with open(output, 'w', newline='') as csvfile:
         file = csv.DictWriter(csvfile, fieldnames=headers)
         file.writeheader()
@@ -22,80 +23,88 @@ def csv_save(output, headers, data) -> None:
             })
             
     print(f"{output}.csv succesfully save")
+    
+    return True
 
  
-def metric_precess(output, headers) -> None:
-    """_summary_
-
-    Args:
-        output (_type_): _description_
-        headers (_type_): _description_
-        data (_type_): _description_
- 
+def metric_precess(content: str, headers: list, csv_file: str) -> True:
     """
+    Excavates buried JSON treasures from the jungle of text.
+    """
+    
+    content = content.strip()
+    if not content:
+        return []
+
     data = []
-    buffer = ""
-    brace_count = 0
+    counter = 0
+    mapStart = None
     
-    with open('result/result.txt', 'r') as file:
-        log_content = file.read()
+    with open(input_file, 'r') as file:
+        content = file.read()
         
-    for char in log_content:
-        buffer += char
+    for i, char in enumerate(content):
         if char == '{':
-            brace_count += 1
+            if (counter) == 0:
+                mapStart = i
+            counter += 1
         elif char == '}':
-            brace_count -= 1
-        if brace_count == 0 and buffer.strip():
-            try:
-                data.append(json.loads(buffer.strip()))
-                buffer = ""
-            except json.JSONDecodeError as e:
-                print(f"Error decoding JSON: {e}")
-                buffer = ""
+            counter -= 1
+            if (counter == 0 and mapStart is not None):
+                obj = content[mapStart:i+1]
+                data.append(json.loads(obj))
+                mapStart = None
 
-    csv_save(output, headers, data)
+    csv_save(csv_file, headers, data)
     
- 
-
-def process_cpu_energy_meter(output, headers, directory) -> None:
-    """_summary_
-
-    Args:
-        output (string): _description_
-        headers (list): _description_
-        directory (string): _description_
+    return True
+    
+    
+def process_cpu_energy_meter(output:str, headers:list, energy_file:str) -> True:
     """
-    data, item = [], {}
+    Parse cpu energy meter result files 
+    """
     
-    # for each subfolder in Energy folder (1Mb.JPEG)
+    data = list()
+    item = dict()
+    
+    # For each subfolder in Energy folder (1Mb.JPEG).
     for dir in os.listdir("result/energy"):
         dir_path = os.path.join("result/energy", dir)
         image = dir.replace(".JPEG", "")
 
-        # for each file in the subfolder (pillow1Mb.JPEG.txt)
+        # For each file in the subfolder. 
         for file in os.listdir(dir_path):  
             file_path = os.path.join(dir_path, file)
             library = file.replace(image+".JPEG.txt", "")
 
             with open(file_path, 'r') as file:
                 lines = file.readlines()
+                
             for line in lines:
                 line = line.strip()
-                if line:
+                if (line):
                     key, val = line.split('=')
                     item[key] = val
                 else:
-                    if item:
+                    if (item):
                         item["image"], item["library"] = image, library
                         data.append(item)
                         item = {}
                         
     csv_save(output, headers, data)
     
+    return True
+    
     
 
 if __name__ == "__main__":
+    
+    input_file  =  "result/result.txt"
+    energy_file =  "result/energy"
+    
+    csv_file   = "result/result.csv"
+    energy_csv = "result/energy.csv"
     
     
     # Define CSV headers for others data proc. 
@@ -109,7 +118,7 @@ if __name__ == "__main__":
         "upload_time"
     ]
     
-    metric_precess("result/result.csv", headers)
+    metric_precess(input_file, headers, csv_file)
     
     headers = [
         'duration_seconds', 
@@ -121,7 +130,7 @@ if __name__ == "__main__":
         'cpu_count'
     ]
     
-    process_cpu_energy_meter("result/energy.csv", headers, "energy")
+    process_cpu_energy_meter(energy_csv, headers, energy_file)
 
 
     
