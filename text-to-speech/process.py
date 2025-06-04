@@ -78,7 +78,7 @@ def to_csv(input_file:str, output_file:str)->bool:
     return True
           
 
-def process_cpu_energy_meter(output:str, headers:list, directory:str) -> True:
+def process_cpu_energy_meter(output:str, headers:list, energy_file:str) -> True:
     """
     Parse cpu energy meter result files 
     """
@@ -86,12 +86,12 @@ def process_cpu_energy_meter(output:str, headers:list, directory:str) -> True:
     data = list()
     item = dict()
     
-    # for each subfolder in Energy folder (1Mb.JPEG)
-    for dir in os.listdir("result/energy"):
-        dir_path = os.path.join("result/energy", dir)
+    # For each subfolder in Energy folder (1Mb.JPEG).
+    for dir in os.listdir(energy_file):
+        dir_path = os.path.join(energy_file, dir)
         schema = dir
 
-        # for each file in the subfolder (pillow1Mb.JPEG.txt)
+        # For each file in the subfolder. 
         for file in os.listdir(dir_path):  
             file_path = os.path.join(dir_path, file)
             text = file.replace(".txt", "")
@@ -101,11 +101,11 @@ def process_cpu_energy_meter(output:str, headers:list, directory:str) -> True:
                 
             for line in lines:
                 line = line.strip()
-                if line:
+                if (line):
                     key, val = line.split('=')
                     item[key] = val
                 else:
-                    if item:
+                    if (item):
                         item["schema"], item["text"] = schema, text
                         data.append(item)
                         item = {}
@@ -145,8 +145,11 @@ def preprocess_json_objects(content: str) -> list:
 
 if __name__ == "__main__":
    
-    input_file = 'result/result.txt'
-    csv_file   = 'result/result.csv' 
+    input_file  =  "result/result.txt"
+    energy_file =  "result/energy"
+    
+    csv_file   = "result/result.csv"
+    energy_csv = "result/energy.csv"
     
     to_csv(input_file, csv_file)
 
@@ -160,7 +163,7 @@ if __name__ == "__main__":
         'cpu_count'
     ]    
     
-    process_cpu_energy_meter("result/energy.csv", headers, "energy")
+    process_cpu_energy_meter(energy_csv, headers, energy_file)
 
 
 
