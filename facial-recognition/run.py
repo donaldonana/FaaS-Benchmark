@@ -26,10 +26,10 @@ def prewarm(command:list, process:int)-> bool:
     
     for k in range(PROCESS):
         start_time = k * chunk_duration
-
+        
         if k == (num_processes - 1) :
             chunk_duration = chunk_duration + (DURATION%num_processes)
-
+            
         process = subprocess.Popen(command, stdout=open(RESULT_FILE, 'a')) # Run each command in the background.
         processes.append(process)
 

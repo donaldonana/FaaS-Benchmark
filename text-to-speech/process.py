@@ -1,6 +1,8 @@
 import os
 import json
 import csv
+from collections import defaultdict
+
 
 
 def csv_save(output:str, headers:list, data:dict) -> None:
@@ -77,6 +79,9 @@ def to_csv(input_file:str, output_file:str)->bool:
           
 
 def process_cpu_energy_meter(output:str, headers:list, directory:str) -> True:
+    """
+    Parse cpu energy meter result files 
+    """
      
     data = list()
     item = dict()
@@ -109,29 +114,33 @@ def process_cpu_energy_meter(output:str, headers:list, directory:str) -> True:
     
     return True
     
+ 
 
-def preprocess_json_objects(content):
-    """Ensure proper JSON object formatting."""
+def preprocess_json_objects(content: str) -> list:
+    """
+    Excavates buried JSON treasures from the jungle of text.
+    """
     content = content.strip()
     if not content:
         return []
-    
-    # Split the content into separate JSON objects
-    objects = []
-    obj_start = 0
-    bracket_count = 0
-    
-    for i, char in enumerate(content):
-        if char == '{':
-            if bracket_count == 0:
-                obj_start = i
-            bracket_count += 1
-        elif char == '}':
-            bracket_count -= 1
-            if bracket_count == 0:
-                objects.append(content[obj_start:i+1])
-    
-    return objects
+
+    data = []
+    counter = 0
+    mapStart = None
+
+    for i, rune in enumerate(content):
+        if rune == '{':
+            if (counter) == 0:
+                mapStart = i
+            counter += 1
+        elif rune == '}':
+            counter -= 1
+            if (counter == 0 and mapStart is not None):
+                data.append(content[mapStart:i+1])
+                mapStart = None
+
+    return data
+
 
 
 if __name__ == "__main__":
