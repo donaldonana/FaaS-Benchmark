@@ -4,6 +4,8 @@ import subprocess
 import time
 
 
+IPV4 = "10.44.193.201"
+
 
 def prewarm(
     nprocess:int,
@@ -27,7 +29,7 @@ def prewarm(
             
         command = [
                 "wsk", "action", "invoke", schema, "-r", "--blocking",
-                "--param", "ipv4", ipv4,
+                "--param", "ipv4", IPV4,
                 "--param", "start", str(start_time),
                 "--param", "duration", str(chunk_duration),
                 "--param", "schema", schema,
@@ -56,7 +58,7 @@ def run(
     video:str
     ) -> bool: 
     """
-    run the Benchmark n times  
+    Run the benchmark n times.  
     """
     
     energy_file = f"{energy_dir}/{schema}/{video}.txt"
@@ -101,7 +103,6 @@ if __name__ == "__main__":
     DURATION = 30
     NPROCESS = 4
     NTIMES = 2
-    IPV4 = "10.44.193.201"
     VIDEOS = ["daenerys.mp4"]
     SCHEMAS = ["S1"]
     RESULT = "result/result.txt"
