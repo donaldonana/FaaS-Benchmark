@@ -64,6 +64,8 @@ def run(
     energy_file = f"{energy_dir}/{schema}/{video}.txt"
     chunk_duration = DURATION // NPROCESS
     
+    print("Runnig Start. \n")
+    
     for i in range(1, ntimes):
         energy_process = subprocess.Popen(["cpu-energy-meter", "-r"], stdout=open(energy_file, 'a'))  # cpu-energy-meter in background.
         processes = []
