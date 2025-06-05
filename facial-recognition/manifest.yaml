@@ -6,7 +6,7 @@ packages:
                 docker: onanad/action-python-v3.9:decode
                 web: true
                 limits:
-                    memorySize: 200
+                    memorySize: 150
             draw:
                 function: draw/__main__.py
                 docker: onanad/action-python-v3.9:draw
@@ -16,7 +16,7 @@ packages:
                 function: encode/__main__.py
                 docker: onanad/action-python-v3.9:encode
                 limits:
-                    memorySize: 300
+                    memorySize: 250
             facerec:
                 function: facial/__main__.py
                 docker: onanad/action-python-v3.9:facerec
@@ -32,12 +32,12 @@ packages:
                 docker: onanad/action-python-v3.9:keep
                 web: true
                 limits:
-                    memorySize: 200
+                    memorySize: 180
             scenechange:
                 function: scene-change/__main__.py
                 docker: onanad/action-python-v3.9:scenechange
                 limits:
-                    memorySize: 200
+                    memorySize: 180
         sequences:
             S1: 
                 actions: decode, scenechange, facerec, draw, encode

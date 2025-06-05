@@ -93,7 +93,6 @@ def process_cpu_energy_meter(output:str, headers:list, energy_file:str) -> True:
     
     return True
     
-    
 
 if __name__ == "__main__":
     
