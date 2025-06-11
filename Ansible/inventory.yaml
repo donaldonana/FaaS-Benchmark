@@ -1,7 +1,11 @@
 compute:
   hosts:
     node0:
-      ansible_host: onana@apt174.apt.emulab.net
+      ansible_host: onana@apt129.apt.emulab.net
+    node1:
+      ansible_host: onana@apt130.apt.emulab.net
+    node2:
+      ansible_host: onana@apt131.apt.emulab.net
     
   vars:
     ansible_user: onana
@@ -9,19 +13,19 @@ compute:
 controller:
   hosts:
     node0:
-      ansible_host: onana@apt174.apt.emulab.net
+      ansible_host: onana@apt129.apt.emulab.net
   vars:
     ansible_user: onana
 
 storage:
   hosts:
     node0:
-      ansible_host: onana@apt174.apt.emulab.net
+      ansible_host: onana@apt129.apt.emulab.net
   vars:
     ansible_user: onana
 
 
-# ssh onana@apt174.apt.emulab.net
+# ssh onana@apt129.apt.emulab.net
 
 # scp -r onana@apt174.apt.emulab.net:/users/onana/benchmark/text-to-speech/result ./
 # ssh onana@apt139.apt.emulab.net
