@@ -1,7 +1,5 @@
----
-title: README
----
-We implement alternatives to a state-of-the-art FaaS benchmark. Deploying and executing them on Apache OpenWhisk. During execution, we monitor energy consumption, execution time, and result quality for each alternative. We have provided more details in the file `rapport.pdf`  
+
+We implement state-of-the-art FaaS benchmark and differents alternatives. Deploying and executing them on Apache OpenWhisk. During execution, we monitor energy consumption, execution time, and result quality for each alternative. We have provided more details in the file `rapport.pdf`  
 
 ## Requirements : 
 
