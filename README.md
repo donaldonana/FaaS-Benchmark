@@ -20,7 +20,7 @@ More description of each benchmark, are avaible in `rapport.pdf`  file.
   
   * `text-to-speech`: The folder contain the text-to-speech benchmark implementation. The benchmark implements an application that converts a text file into audio. It takes a text as input and produces an audio file as output, encoded in a specific format. It is the multi step benchmark so the folder have others sub-folder for each step implementation. 
 
-  * `Facial-recognition`: The folder contain the Facial-recognition benchmark implementation. The benchmark implements a facial recognition application, it takes as input an image containing the face of an actor and a video, then draws a bounding box around the actor’s face in all the scenes of the video. As text-to-speech bench, it is a multi step banchmark.  
+  * `Facial-recognition`: The folder contain the Facial-recognition benchmark implementation. The benchmark implements a facial recognition application, it takes as input an image containing the face of an actor and a video, then draws a bounding box around the actor’s face in all the scenes of the video. As text-to-speech bench, it is a multi step benchmark.  
 
   
  
