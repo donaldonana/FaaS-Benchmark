@@ -1,43 +1,28 @@
-## GreenFaaS
+---
+title: README
+---
+We implement alternatives to a state-of-the-art FaaS benchmark. Deploying and executing them on Apache OpenWhisk. During execution, we monitor energy consumption, execution time, and result quality for each alternative. We have provided more details in the file `rapport.pdf`  
 
-To support the proposed idea, we begin by outlining the motivation behind the project. We implement alternatives to a state-of-the-art benchmark, deploying them on Apache OpenWhisk. During execution, we monitor energy consumption, execution time, and result quality for each alternative.
+## Requirements : 
 
-## How to Run the Experiment
+  * Install and configure Apache OpenWhisk
+  
+  * Install and configure Swift OpenStack 
+  
 
-1. **Set Up the Configuration**  
-      **a.** We use Ansible to automatically configure the runtime environment. To begin, you need to install Ansible:
+## Folders Description : 
 
-   ```shell
-   python3 -m pip -V venv
-   source ./venv/bin/activate
-   python3 -m pip install ansible
-   ```
+More description of each benchmark, are avaible in `rapport.pdf`  file. 
 
-      **b.** We then need to modify the ansible inventories **inventory.yaml** which contain all the  **IP address** or fully **qualified domain name (FQDN)** of each  node in runtime environment. Modify the **ansible_host** key in that file, and write the correct IP for each compute and storage node. 
- 
-   ```bash
-   ansible compute -m ping -i inventory.yaml
-   ```
+  * `thumbnaile`:  The folder contain the thumbnaile bench implementation. the benchmark downloads an image from cloud storage (swift in our case), resizes it to a thumbnail size, and then uploads the new smaller version of the image.
+  
+  * `image-recognition`: The folder contain image-recognition benchmark implementation. The benchmark performs an image recognition task. It starts by downloading an image from cloud storage, then submits it as input to a ResNet model, a deep learning model specifically designed for image recognition. 
+  
+  * `video-processing`: The folder contain  video-processing benchmark implementation. This benchmark downloads a video from remote storage, transforms it into an image in GIF format, and then returns the result.
+  
+  * `text-to-speech`: The folder contain the text-to-speech benchmark implementation. The benchmark implements an application that converts a text file into audio. It takes a text as input and produces an audio file as output, encoded in a specific format. It is the multi step benchmark so the folder have others sub-folder for each step implementation. 
 
-      **c.** Set up all  compute node. The following command, use the ansible playbook **compute.yaml**  to install openwhisk,  set the device core frequency in the max frequence, ... 
+  * `Facial-recognition`: The folder contain the Facial-recognition benchmark implementation. The benchmark implements a facial recognition application, it takes as input an image containing the face of an actor and a video, then draws a bounding box around the actor’s face in all the scenes of the video. As text-to-speech bench, it is a multi step banchmark.  
 
-   ```bash
-   ansible-playbook -i inventory.yaml compute.yaml
-   ```
-
-      **d.** Set up all storage node. The following command, use the ansible playbook **SAIO.yaml**  to install and configure SAIO in the storage node. 
-
-   ```bash
-   ansible-playbook -i inventory.yaml SAIO.yaml
-   ```
-
- 
-
-2. **Run each benchmark**  
-
-   ....
-
-
-
-
+  
  

@@ -50,7 +50,7 @@ def pillow_resize(path, w, h):
 
 def resize(args):
   
-    # Swift identifiant
+    # Swift identifiants
     auth_url = f'http://{args["ipv4"]}:8080/auth/v1.0'
     username = 'test:tester'
     password = 'testing'
