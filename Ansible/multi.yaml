@@ -268,7 +268,6 @@
         sudo cp /etc/kubernetes/admin.conf ~/.kube/config
         sudo chown $(id -u):$(id -g) ~/.kube/config
       
- 
     - name: Apply Weave Net plugin
       shell: |
         KUBECONFIG=/etc/kubernetes/admin.conf \

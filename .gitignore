@@ -9,3 +9,5 @@ save.json
 *.avi*
 *.mp4*
 *.txt*
+result/*
+ 

@@ -12,7 +12,7 @@ def start(action, args, result, lock):
     with lock:
         result.update(r.json())  
 
-     
+
 def main(args):
     
     val = args.get("validation", {"process" : 0, "pull" : 0, "push" : 0})
